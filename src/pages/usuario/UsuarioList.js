@@ -2,6 +2,10 @@ import axios from 'axios'
 import {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 
+//React Icons
+import * as FaIcons from 'react-icons/fa';
+import * as AiIcons from 'react-icons/ai'
+
 const API_URL = 'http://localhost:5000/api/usuarios/'
 
 function UsuarioList() {
@@ -27,7 +31,7 @@ function UsuarioList() {
         <div className='container'>
             <div className='row'>
                 <div className='col'>
-                    <Link to="/usuarios/create" className='btn btn-primary mt-2 mb-2'><i className="fas fa-plus"></i></Link>
+                    <Link to="/usuarios/create" className='btn btn-success mt-2 mb-2'><AiIcons.AiOutlineUserAdd/></Link>
                     <table className='table'>
                         <thead className='table-primary'>
                             <tr>
@@ -52,8 +56,8 @@ function UsuarioList() {
                                     <td> {usuario.telefono} </td>
                                     <td> {usuario.idRol} </td>
                                     <td>
-                                        <Link to={`/usuarios/edit/${usuario.idUsuario}`} className='btn btn-info'><i className="fas fa-edit"></i></Link>
-                                        <button onClick={() => deleteUsuario(usuario.id)} className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
+                                        <Link to={`/usuarios/edit/${usuario.idUsuario}`} className='btn btn-info'><FaIcons.FaUserEdit/></Link>
+                                        <button onClick={() => deleteUsuario(usuario.id)} className='btn btn-danger'><AiIcons.AiFillDelete/></button>
                                     </td>
                                 </tr>
                             ))}

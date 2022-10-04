@@ -3,7 +3,10 @@
 $light: #ffffff;
 $gray: #e7e9eb;
 
-
+*{
+    margin: 0;
+    //padding: none;
+}
 
 .navbar {
     background-color: $light;
@@ -13,7 +16,7 @@ $gray: #e7e9eb;
 
 .sidebar {
     width: 15rem;
-    height: calc(100vh - 52px);
+    height: calc(108vh - 52px);
     border-right: 1px solid $gray;
 
     ul {
