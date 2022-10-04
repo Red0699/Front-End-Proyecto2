@@ -1,125 +1,193 @@
-import axios from 'axios'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const API_URL = 'http://localhost:5000/api/usuarios'
-
+import * as UsuarioServer from './../../services/usuario';
 const UsuarioForm = () => {
-    const [primerNombre, setPN] = useState('')
-    const [segundoNombre, setSN] = useState('')
-    const [apellidoPaterno, setAP] = useState('')
-    const [apellidoMaterno, setAM] = useState('')
-    const [telefono, setTelefono] = useState('')
-    const [correo, setCorreo] = useState('')
-    const [contraseña, setContraseña] = useState('')
-    const [idRol, setIR] = useState('')
-    const navigate = useNavigate()    
-    
-    //procedimiento guardar
-    const store = async (e) => {
-        e.preventDefault()
-        await axios.post(API_URL, {
-            primerNombre: primerNombre,
-            segundoNombre: segundoNombre, 
-            apellidoPaterno: apellidoPaterno, 
-            apellidoMaterno: apellidoMaterno, 
-            telefono: telefono, 
-            correo: correo, 
-            contraseña: contraseña, 
-            idRol: idRol
-        })
-        navigate('/usuarios')
-    }   
+    const navigate = useNavigate();
+    const params = useParams();
+
+    // console.log(params);
+
+    const initialState = {
+        idUsuario: 0,
+        primerNombre: "",
+        segundoNombre: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
+        telefono: "",
+        correo: "",
+        contraseña: "",
+        idRol: 0
+    };
+
+    const [usuario, setUsuario] = useState(initialState);
+
+    const handleInputChange = (e) => {
+        // console.log(e.target.name);
+        // console.log(e.target.value);
+        setUsuario({ ...usuario, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            let res;
+            if (!params.id) {
+                res = await UsuarioServer.insertUsuario(usuario);
+                const data = await res.json();
+                if (data.message === "Success") {
+                    setUsuario(initialState);
+                }
+            } else {
+                await UsuarioServer.updateUsuario(params.id, usuario);
+            }
+            navigate('/usuarios');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getUsuario = async (idUsuario) => {
+        try {
+            const res = await UsuarioServer.getUsuario(idUsuario);
+            const data = await res.json();
+            //console.log(data);
+
+            
+            const { primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, telefono, correo, contraseña, idRol 
+            } = data.usuario;
+
+            this.setUsuario({
+                primerNombre,
+                segundoNombre,
+                apellidoPaterno,
+                apellidoMaterno,
+                telefono,
+                correo,
+                contraseña,
+                idRol
+            });
+            
+           
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        if (params.id) {
+            getUsuario(params.id);
+        }
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <div className='container'>
-           <h3>Create POST</h3>
-           <form onSubmit={store}>
-                
+            <h3>Edit POST</h3>
+            <form onSubmit={handleSubmit}>
+
                 <div className='mb-3'>
                     <label className='form-label'>Primer Nombre</label>
                     <input
-                        value={primerNombre}
-                        onChange={ (e)=> setPN(e.target.value)} 
+                        name='primerNombre'
+                        value={usuario.primerNombre}
+                        onChange={handleInputChange}
                         type="text"
                         className='form-control'
                     />
-                 </div>   
+                </div>
 
-                 <div className='mb-3'>
+                <div className='mb-3'>
                     <label className='form-label'>Segundo Nombre</label>
                     <input
-                        value={segundoNombre}
-                        onChange={ (e)=> setSN(e.target.value)} 
+                        name="segundoNombre"
+                        value={usuario.segundoNombre}
+                        onChange={handleInputChange}
                         type="text"
                         className='form-control'
                     />
-                 </div> 
+                </div>
 
-                 <div className='mb-3'>
+                <div className='mb-3'>
                     <label className='form-label'>Apellido Paterno</label>
                     <input
-                        value={apellidoPaterno}
-                        onChange={ (e)=> setAP(e.target.value)} 
+                        name="apellidoPaterno"
+                        value={usuario.apellidoPaterno}
+                        onChange={handleInputChange}
                         type="text"
                         className='form-control'
                     />
-                 </div>     
-                 
-                 <div className='mb-3'>
+                </div>
+
+                <div className='mb-3'>
                     <label className='form-label'>Apellido Materno</label>
                     <input
-                        value={apellidoMaterno}
-                        onChange={ (e)=> setAM(e.target.value)} 
+                        name="apellidoMaterno"
+                        value={usuario.apellidoMaterno}
+                        onChange={handleInputChange}
                         type="text"
                         className='form-control'
                     />
-                 </div>  
+                </div>
 
-                 <div className='mb-3'>
+                <div className='mb-3'>
                     <label className='form-label'>Correo</label>
                     <input
-                        value={correo}
-                        onChange={ (e)=> setCorreo(e.target.value)} 
+                        name="correo"
+                        value={usuario.correo}
+                        onChange={handleInputChange}
                         type="text"
                         className='form-control'
                     />
-                 </div>  
-                 
-                 <div className='mb-3'>
+                </div>
+
+                <div className='mb-3'>
                     <label className='form-label'>Telefono</label>
                     <input
-                        value={telefono}
-                        onChange={ (e)=> setTelefono(e.target.value)} 
+                        name="telefono"
+                        value={usuario.telefono}
+                        onChange={handleInputChange}
                         type="text"
                         className='form-control'
                     />
-                 </div> 
+                </div>
 
-                  <div className='mb-3'>
+                <div className='mb-3'>
                     <label className='form-label'>Contraseña</label>
                     <input
-                        value={contraseña}
-                        onChange={ (e)=> setContraseña(e.target.value)} 
+                        name="contraseña"
+                        value={usuario.contraseña}
+                        onChange={handleInputChange}
                         type="text"
                         className='form-control'
                     />
-                 </div>
+                </div>
 
-                 <div className='mb-3'>
+                <div className='mb-3'>
                     <label className='form-label'>Rol</label>
                     <input
-                        value={idRol}
-                        onChange={ (e)=> setIR(e.target.value)} 
-                        type="text"
+                        name="idRol"
+                        value={usuario.idRol}
+                        onChange={handleInputChange}
+                        type="number"
                         className='form-control'
                     />
-                 </div>  
+                </div>
 
-                 <button type='submit' className='btn btn-primary'>Store</button>                  
-           </form>
+                <div className="d-grid gap-2">
+                    {params.id ? (
+                        <button type="submit" className="btn btn-block btn-primary">
+                            Update
+                        </button>
+                    ) : (
+                        <button type="submit" className="btn btn-block btn-success">
+                            Register
+                        </button>
+                    )}
+                </div>
+            </form>
         </div>
-    )
-}
+    );
+};
 
-export default UsuarioForm
+export default UsuarioForm;
