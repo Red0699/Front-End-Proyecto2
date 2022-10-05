@@ -1,54 +1,39 @@
-const API_URL = 'http://localhost:5000/api/usuarios/'
+import http from '../http-common';
 
-export const listCompanies = async () => {
-    return await fetch(API_URL);
+const getAll = () => {
+  return http.get("/usuarios");
 };
 
-export const getUsuario = async (idUsuario) => {
-    return await fetch(`${API_URL}${idUsuario}`);
+const get = id => {
+  return http.get(`/usuarios/${id}`);
 };
 
-export const insertUsuario = async (data) => {
-    return await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-
-            "primerNombre": String(data.primerNombre).trim(),
-            "segundoNombre": String(data.segundoNombre).trim(),
-            "apellidoPaterno": String(data.apellidoPaterno).trim(),
-            "apellidoMaterno": String(data.apellidoMaterno).trim(),
-            "telefono": String(data.telefono).trim(),
-            "correo": String(data.correo).trim(),
-            "contraseña": String(data.contraseña).trim(),
-            "idRol": parseInt(data.idRol)
-        })
-    });
+const create = data => {
+  return http.post("/usuarios", data);
 };
 
-export const updateUsuario = async (id, data) => {
-    return await fetch(`${API_URL}${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "primerNombre": String(data.primerNombre).trim(),
-            "segundoNombre": String(data.segundoNombre).trim(),
-            "apellidoPaterno": String(data.apellidoPaterno).trim(),
-            "apellidoMaterno": String(data.apellidoMaterno).trim(),
-            "telefono": String(data.telefono).trim(),
-            "correo": String(data.correo).trim(),
-            "contraseña": String(data.contraseña).trim(),
-            "idRol": parseInt(data.idRol)
-        })
-    });
+const update = (id, data) => {
+  return http.put(`/usuarios/${id}`, data);
 };
 
-export const deleteUsuario = async (id) => {
-    return await fetch(`${API_URL}${id}`, {
-        method: 'DELETE'
-    });
+const remove = id => {
+  return http.delete(`/usuarios/${id}`);
 };
+
+/*
+const findByTitle = title => {
+  return http.get(`/tutorials?title=${title}`);
+};
+*/
+
+
+const UsuarioService = {
+  getAll,
+  get,
+  create,
+  update,
+  remove
+  //findByTitle
+};
+
+export default UsuarioService;

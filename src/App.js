@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/home/Home';
 import UsuarioList from './pages/usuario/UsuarioList';
 import UsuarioForm from './pages/usuario/UsuarioForm';
+import UsuarioEdit from './pages/usuario/UsuarioEdit';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/usuarios" element={<UsuarioList />} />
             <Route path="/usuarios/create" element={<UsuarioForm />} />
-            <Route path="/usuarios/edit/:id" element={<UsuarioForm />} />
+            <Route path="/usuarios/edit/:id" element={<UsuarioEdit />} />
           </Routes>
         </div>
 
