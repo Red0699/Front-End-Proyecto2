@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import UsuarioService from './../../services/usuario';
+import { useNavigate } from 'react-router-dom';
 
-import * as UsuarioServer from './../../services/usuario';
 const UsuarioForm = () => {
-    const navigate = useNavigate();
-    const params = useParams();
-
-    // console.log(params);
-
-    const initialState = {
+    const initialTutorialState = {
         idUsuario: 0,
         primerNombre: "",
         segundoNombre: "",
@@ -19,73 +14,53 @@ const UsuarioForm = () => {
         contraseña: "",
         idRol: 0
     };
+    const navigate = useNavigate();
+    const [usuario, setUsuario] = useState(initialTutorialState);
+    //const [submitted, setSubmitted] = useState(false);
 
-    const [usuario, setUsuario] = useState(initialState);
-
-    const handleInputChange = (e) => {
-        // console.log(e.target.name);
-        // console.log(e.target.value);
-        setUsuario({ ...usuario, [e.target.name]: e.target.value });
+    const handleInputChange = event => {
+        const { name, value } = event.target;
+        setUsuario({ ...usuario, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            let res;
-            if (!params.id) {
-                res = await UsuarioServer.insertUsuario(usuario);
-                const data = await res.json();
-                if (data.message === "Success") {
-                    setUsuario(initialState);
-                }
-            } else {
-                await UsuarioServer.updateUsuario(params.id, usuario);
-            }
-            navigate('/usuarios');
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const agregarUsuario = () => {
+        var data = {
+            primerNombre: usuario.primerNombre,
+            segundoNombre: usuario.segundoNombre,
+            apellidoPaterno: usuario.apellidoPaterno,
+            apellidoMaterno: usuario.apellidoMaterno,
+            correo: usuario.correo,
+            telefono: usuario.telefono,
+            contraseña: usuario.contraseña,
+            idRol: usuario.idRol,
+        };
 
-    const getUsuario = async (idUsuario) => {
-        try {
-            const res = await UsuarioServer.getUsuario(idUsuario);
-            const data = await res.json();
-            //console.log(data);
-
-            
-            const { primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, telefono, correo, contraseña, idRol 
-            } = data.usuario;
-
-            this.setUsuario({
-                primerNombre,
-                segundoNombre,
-                apellidoPaterno,
-                apellidoMaterno,
-                telefono,
-                correo,
-                contraseña,
-                idRol
+        UsuarioService.create(data)
+            .then(response => {
+                setUsuario({
+                    id: response.data.id,
+                    primerNombre: response.data.primerNombre,
+                    segundoNombre: response.data.segundoNombre,
+                    apellidoPaterno: response.data.apellidoPaterno,
+                    apellidoMaterno: response.data.apellidoMaterno,
+                    telefono: response.data.telefono,
+                    correo: response.data.correo,
+                    contraseña: response.data.contraseña,
+                    idRol: response.data.idRol
+                });
+                console.log(response.data);
+                navigate('/usuarios');
+            })
+            .catch(e => {
+                console.log(e);
             });
-            
-           
-        } catch (error) {
-            console.log(error);
-        }
     };
 
-    useEffect(() => {
-        if (params.id) {
-            getUsuario(params.id);
-        }
-        // eslint-disable-next-line
-    }, []);
 
     return (
-        <div className='container'>
-            <h3>Edit POST</h3>
-            <form onSubmit={handleSubmit}>
+        <div className="submit-form">
 
+            <div>
                 <div className='mb-3'>
                     <label className='form-label'>Primer Nombre</label>
                     <input
@@ -174,18 +149,11 @@ const UsuarioForm = () => {
                     />
                 </div>
 
-                <div className="d-grid gap-2">
-                    {params.id ? (
-                        <button type="submit" className="btn btn-block btn-primary">
-                            Update
-                        </button>
-                    ) : (
-                        <button type="submit" className="btn btn-block btn-success">
-                            Register
-                        </button>
-                    )}
-                </div>
-            </form>
+                <button onClick={agregarUsuario} className="btn btn-success">
+                    Submit
+                </button>
+            </div>
+
         </div>
     );
 };
