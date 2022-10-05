@@ -38,9 +38,10 @@ const UsuarioEdit = () => {
     }
 */
     useEffect(() => {
-        axios.get(API_URL, { idUsuario: params.idUsuario }).then(res => {
+        //axios.get(API_URL, { idUsuario: params.idUsuario }).then(res => {
+        UsuarioService.get(params.id).then(res => {
             console.log(res.data[0]);
-            const dataUsuario = res.data[0];
+            const dataUsuario = res.data[0]; 
             setPN(dataUsuario.primerNombre)
             setSN(dataUsuario.segundoNombre)
             setAP(dataUsuario.apellidoPaterno)
@@ -50,7 +51,7 @@ const UsuarioEdit = () => {
             setContraseña(dataUsuario.contraseña)
             setIR(dataUsuario.idRol)
         })
-    }, [])
+    }, []) // eslint-disable-next-line
 
     const actualizarUsuario = async (e) => {
 
