@@ -12,8 +12,23 @@ const create = data => {
   return http.post("/usuarios", data);
 };
 
-const update = (id, data) => {
-  return http.put(`/usuarios/${id}`, data);
+export const updateUsuario = async (id, data) => {
+  return await fetch(`http://localhost:5000/api/usuarios/${id}`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          "primerNombre": String(data.primerNombre).trim(),
+          "segundoNombre": String(data.segundoNombre).trim(),
+          "apellidoPaterno": String(data.apellidoPaterno).trim(),
+          "apellidoMaterno": String(data.apellidoMaterno).trim(),
+          "telefono": String(data.telefono).trim(),
+          "correo": String(data.correo).trim(),
+          "contraseña": String(data.contraseña).trim(),
+          "idRol": parseInt(data.idRol)
+      })
+  });
 };
 
 const remove = id => {
@@ -31,7 +46,7 @@ const UsuarioService = {
   getAll,
   get,
   create,
-  update,
+  updateUsuario,
   remove
   //findByTitle
 };

@@ -38,7 +38,7 @@ const UsuarioForm = () => {
         UsuarioService.create(data)
             .then(response => {
                 setUsuario({
-                    id: response.data.id,
+                    //id: response.data.id,
                     primerNombre: response.data.primerNombre,
                     segundoNombre: response.data.segundoNombre,
                     apellidoPaterno: response.data.apellidoPaterno,

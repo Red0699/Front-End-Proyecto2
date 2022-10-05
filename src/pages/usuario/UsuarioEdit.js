@@ -14,7 +14,7 @@ const UsuarioEdit = () => {
     const [correo, setCorreo] = useState('')
     const [contraseña, setContraseña] = useState('')
     const [idRol, setIR] = useState('')
-    const {id} = useParams()
+    const { id } = useParams()
     const params = useParams();
     const navigate = useNavigate()
 
@@ -52,9 +52,11 @@ const UsuarioEdit = () => {
         })
     }, [])
 
-    function actualizarUsuario() {
+    const actualizarUsuario = async (e) => {
 
         //const idUsuario = parseInt(params.id);
+
+        e.preventDefault();
 
         const update = {
             primerNombre: primerNombre,
@@ -65,20 +67,26 @@ const UsuarioEdit = () => {
             correo: correo,
             contraseña: contraseña,
             idRol: idRol,
-            idUsuario: params.idUsuario
+            //idUsuario: params.idUsuario
         }
 
-        axios.put(API_URL+id, update).then(res => {
-            alert(res.data);
-            //navigate('/usuarios')
-        }).catch()
+        console.log(update);
+        console.log(id);
 
+        try {
+            await UsuarioService.updateUsuario(id, update).then(res => {
+                //alert(res.data);
+                navigate('/usuarios')
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
         <div className='container'>
             <h3>Edit POST</h3>
-            <form>
+            <form onSubmit={actualizarUsuario}>
 
                 <div className='mb-3'>
                     <label className='form-label'>Primer Nombre</label>
@@ -160,7 +168,7 @@ const UsuarioEdit = () => {
                     />
                 </div>
 
-                <button onClick={actualizarUsuario} type='submit' className='btn btn-primary'>Edit</button>
+                <button type='submit' className='btn btn-primary'>Edit</button>
             </form>
         </div>
     )
