@@ -1,14 +1,17 @@
 import axios from 'axios'
 import {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 //React Icons
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai'
+import UsuarioService from '../../services/usuario';
 
 const API_URL = 'http://localhost:5000/api/usuarios/'
 
 function UsuarioList() {
+
+    const navigate = useNavigate();
 
     const [usuarios, setUsuario] = useState([])
     useEffect( ()=>{
@@ -21,11 +24,12 @@ function UsuarioList() {
         setUsuario(res.data)
     }
 
-    //procedimineto para eliminar un 
-    const deleteUsuario = async (id) => {
-       await axios.delete(`${API_URL}${id}`)
-       getUsuarios()
+    //procedimineto para desabilitar un usuario
+    const deshabilitarUsuario = async(id) => {
+        await UsuarioService.deshabilitarUsuario(id);
+        navigate("/usuarios");
     }
+    
 
     return (
         <div className='container'>
@@ -57,7 +61,7 @@ function UsuarioList() {
                                     <td> {usuario.idRol} </td>
                                     <td>
                                         <Link to={`/usuarios/edit/${usuario.idUsuario}`} className='btn btn-info'><FaIcons.FaUserEdit/></Link>
-                                        <button onClick={() => deleteUsuario(usuario.id)} className='btn btn-danger'><AiIcons.AiFillDelete/></button>
+                                        <button onClick={() => deshabilitarUsuario(usuario.idUsuario)} className='btn btn-danger'><AiIcons.AiFillDelete/></button>
                                     </td>
                                 </tr>
                             ))}

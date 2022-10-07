@@ -14,6 +14,7 @@ const UsuarioEdit = () => {
     const [correo, setCorreo] = useState('')
     const [contraseña, setContraseña] = useState('')
     const [idRol, setIR] = useState('')
+    const [estado, setEstado] = useState('')
     const { id } = useParams()
     const params = useParams();
     const navigate = useNavigate()
@@ -49,6 +50,7 @@ const UsuarioEdit = () => {
             setTelefono(dataUsuario.telefono)
             setCorreo(dataUsuario.correo)
             setContraseña(dataUsuario.contraseña)
+            setEstado(dataUsuario.estado)
             setIR(dataUsuario.idRol)
         })
     }, []) // eslint-disable-next-line
@@ -68,6 +70,7 @@ const UsuarioEdit = () => {
             correo: correo,
             contraseña: contraseña,
             idRol: idRol,
+            estado: estado
             //idUsuario: params.idUsuario
         }
 
