@@ -49,7 +49,7 @@ const UsuarioForm = () => {
                     idRol: response.data.idRol
                 });
                 console.log(response.data);
-                navigate('/usuarios');
+                navigate('/usuario');
             })
             .catch(e => {
                 console.log(e);

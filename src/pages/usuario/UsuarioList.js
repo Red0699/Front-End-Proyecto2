@@ -1,6 +1,13 @@
 import axios from 'axios'
-import {useState, useEffect} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import DataTable from 'react-data-table-component'
+
+//Sweet Alert
+import Swal from 'sweetalert2'
+
+//ReactStrap
+import { Card, CardBody, CardHeader, Button, Modal, ModalHeader, ModalBody, Label, Input, FormGroup, ModalFooter, Row, Col } from "reactstrap";
 
 //React Icons
 import * as FaIcons from 'react-icons/fa';
@@ -14,9 +21,9 @@ function UsuarioList() {
     const navigate = useNavigate();
 
     const [usuarios, setUsuario] = useState([])
-    useEffect( ()=>{
+    useEffect(() => {
         getUsuarios()
-    },[])
+    }, [])
 
     //procedimineto para mostrar todos los usuarios
     const getUsuarios = async () => {
@@ -24,52 +31,131 @@ function UsuarioList() {
         setUsuario(res.data)
     }
 
+    //Columnas tabla
+    const columns = [
+        {
+            name: 'Nombre 1',
+            selector: row => row.primerNombre,
+            sortable: true,
+        },
+        {
+            name: 'Nombre 2',
+            selector: row => row.segundoNombre,
+            sortable: true,
+        },
+        {
+            name: 'Apellido 1',
+            selector: row => row.apellidoPaterno,
+            sortable: true,
+        },
+        {
+            name: 'Apellido 2',
+            selector: row => row.apellidoMaterno,
+            sortable: true,
+        },
+        {
+            name: 'Correo',
+            selector: row => row.correo,
+            sortable: true,
+        },
+        {
+            name: 'Telefono',
+            selector: row => row.telefono,
+            sortable: true,
+        },
+        {
+            name: 'Rol',
+            selector: row => row.idRol,
+            sortable: true
+        },
+        {
+            name: '',
+            cell: row => (
+                <>
+                    <Link to={`/usuario/edit/${row.idUsuario}`} color="primary" size="sm" className="mr-2"
+                    >
+                        <i className="fas fa-pen-alt"></i>
+                    </Link>
+
+                    <Button color="danger" size="sm"
+                        onClick={() => deshabilitarUsuario(row.idUsuario)}
+                    >
+                        <i className="fas fa-trash-alt"></i>
+                    </Button>
+                </>
+            ),
+        },
+    ];
+
+    const customStyles = {
+        headCells: {
+            style: {
+                fontSize: '13px',
+                fontWeight: 800,
+            },
+        },
+        headRow: {
+            style: {
+                backgroundColor: "#eee",
+            }
+        }
+    };
+
+    const paginationComponentOptions = {
+        rowsPerPageText: 'Filas por página',
+        rangeSeparatorText: 'de',
+        selectAllRowsItem: true,
+        selectAllRowsItemText: 'Todos',
+    };
+
     //procedimineto para desabilitar un usuario
-    const deshabilitarUsuario = async(id) => {
-        await UsuarioService.deshabilitarUsuario(id);
-        navigate("/usuarios");
+    const deshabilitarUsuario = async (id) => {
+
+        Swal.fire({
+            title: 'Esta seguro?',
+            text: "Desea eliminar el usuario",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, continuar',
+            cancelButtonText: 'No, volver'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                UsuarioService.deshabilitarUsuario(id).then(response => {
+                    getUsuarios();
+
+                    Swal.fire(
+                        'Eliminado!',
+                        'El usuario fue eliminado.',
+                        'success'
+                    )
+                });
+                //navigate("/usuarios");
+            }
+        })
     }
-    
+
 
     return (
-        <div className='container'>
-            <div className='row'>
-                <div className='col'>
-                    <Link to="/usuario/create" className='btn btn-success mt-2 mb-2'><AiIcons.AiOutlineUserAdd/></Link>
-                    <table className='table'>
-                        <thead className='table-primary'>
-                            <tr>
-                                <th>Nombre 1</th>
-                                <th>Nombre 2</th>
-                                <th>Apellido 1</th>
-                                <th>Apellido 2</th>
-                                <th>Correo</th>
-                                <th>Telefono</th>
-                                <th>Rol</th>
-                                <th>Accion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {usuarios.map((usuario) => (
-                                <tr key={usuario.idUsuario}>
-                                    <td> {usuario.primerNombre} </td>
-                                    <td> {usuario.segundoNombre} </td>
-                                    <td> {usuario.apellidoPaterno} </td>
-                                    <td> {usuario.apellidoMaterno} </td>
-                                    <td> {usuario.correo} </td>
-                                    <td> {usuario.telefono} </td>
-                                    <td> {usuario.idRol} </td>
-                                    <td>
-                                        <Link to={`/usuarios/edit/${usuario.idUsuario}`} className='btn btn-info'><FaIcons.FaUserEdit/></Link>
-                                        <button onClick={() => deshabilitarUsuario(usuario.idUsuario)} className='btn btn-danger'><AiIcons.AiFillDelete/></button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <>
+            <Card>
+                <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>
+                    Lista de Usuarios
+                </CardHeader>
+                <CardBody>
+                    <Link to="/usuario/create" className='btn btn-success' size="sm">Nuevo Usuario</Link>
+                    <hr></hr>
+                    <DataTable
+                        columns={columns}
+                        data={usuarios}
+                        pagination
+                        paginationComponentOptions={paginationComponentOptions}
+                        customStyles={customStyles}
+                    />
+                </CardBody>
+            </Card>
+        </>
     )
 }
 

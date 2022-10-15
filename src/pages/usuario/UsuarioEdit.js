@@ -80,7 +80,7 @@ const UsuarioEdit = () => {
         try {
             await UsuarioService.updateUsuario(id, update).then(res => {
                 //alert(res.data);
-                navigate('/usuarios')
+                navigate('/usuario')
             })
         } catch (error) {
             console.log(error);
