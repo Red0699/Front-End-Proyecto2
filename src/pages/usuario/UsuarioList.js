@@ -35,7 +35,7 @@ function UsuarioList() {
         <div className='container'>
             <div className='row'>
                 <div className='col'>
-                    <Link to="/usuarios/create" className='btn btn-success mt-2 mb-2'><AiIcons.AiOutlineUserAdd/></Link>
+                    <Link to="/usuario/create" className='btn btn-success mt-2 mb-2'><AiIcons.AiOutlineUserAdd/></Link>
                     <table className='table'>
                         <thead className='table-primary'>
                             <tr>

@@ -13,11 +13,11 @@ const modelo = {
     correo: "",
     contraseña: "",
     idRol: 0
-  }
-  
+}
+
 const Sidebar = () => {
 
-    const { user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const [dataUser, setDataUser] = useState(modelo)
 
@@ -27,14 +27,14 @@ const Sidebar = () => {
 
     }, [])
     return (
-        
+
         <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
+            <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
                 <div className="sidebar-brand-icon">
                     <i className="fas fa-desktop"></i>
                 </div>
-                <div className="sidebar-brand-text mx-3">Mi Tienda</div>
+                <div className="sidebar-brand-text mx-3">Software Team</div>
             </Link>
 
 
@@ -43,31 +43,25 @@ const Sidebar = () => {
             {
                 (dataUser.idRol == 1) &&
                 <li className="nav-item">
-                    <NavLink to="/dashboard" className="nav-link" >
-                        <i className="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
+                    <NavLink to="/home" className="nav-link" >
+                        <i className="fas fa-fw fa-house-user"></i>
+                        <span>Inicio</span>
                     </NavLink>
                 </li>
             }
-           
+
 
             <hr className="sidebar-divider" />
             {
                 (dataUser.idRol == 1) &&
                 <li className="nav-item">
-                    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsuario"
-                        aria-expanded="true" aria-controls="collapseUsuario">
-                        <i className="fas fa-fw fa-cog"></i>
-                        <span>Administracion</span>
-                    </a>
-                    <div id="collapseUsuario" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div className="bg-white py-2 collapse-inner rounded">
-                            <NavLink to="/usuario" className="collapse-item">Usuarios</NavLink>
-                        </div>
-                    </div>
+                    <NavLink to="/usuario" className="nav-link" >
+                        <i className="fas fa-fw fa-users"></i>
+                        <span>Usuarios</span>
+                    </NavLink>
                 </li>
             }
-            
+
             {
                 (dataUser.idRol == 1) &&
                 <li className="nav-item">
@@ -85,7 +79,7 @@ const Sidebar = () => {
                     </div>
                 </li>
             }
-           
+
 
             <li className="nav-item">
                 <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVenta"
@@ -118,7 +112,7 @@ const Sidebar = () => {
                     </div>
                 </li>
             }
-            
+
 
 
             <hr className="sidebar-divider d-none d-md-block" />
@@ -128,7 +122,7 @@ const Sidebar = () => {
             </div>
 
         </ul>
-        )
+    )
 }
 
 export default Sidebar;
