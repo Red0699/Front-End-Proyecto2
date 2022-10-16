@@ -66,18 +66,10 @@ const Sidebar = () => {
             {
                 (dataUser.idRol == 1) &&
                 <li className="nav-item">
-                    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInventario"
-                        aria-expanded="true" aria-controls="collapseInventario">
-                        <i className="fas fa-fw fa-box"></i>
-                        <span>Inventario</span>
-                    </a>
-                    <div id="collapseInventario" className="collapse" aria-labelledby="headingUtilities"
-                        data-parent="#accordionSidebar">
-                        <div className="bg-white py-2 collapse-inner rounded">
-                            <NavLink to="/producto" className="collapse-item">Productos</NavLink>
-                            <NavLink to="/categoria" className="collapse-item">Categorias</NavLink>
-                        </div>
-                    </div>
+                    <NavLink to="/proveedor" className="nav-link" >
+                    <i className="fas fa-fw fa-user-check"></i>
+                        <span>Proveedores</span>
+                    </NavLink>
                 </li>
             }
 

@@ -12,6 +12,10 @@ import UsuarioEdit from './pages/usuario/UsuarioEdit';
 import Login from './pages/login/Login';
 import VerificarUsuario from './components/VerificarUsuario';
 
+import ProveedorList from './pages/proveedor/ProveedorList';
+import ProveedorForm from './pages/proveedor/ProveedorForm';
+import ProveedorEdit from './pages/proveedor/ProveedorEdit';
+
 import UserProvider from './context/UserProvider';
 import App from './App';
 
@@ -36,6 +40,9 @@ root.render(
                     <Route path='usuario/create' element={<VerificarUsuario> <UsuarioForm /> </VerificarUsuario>} />
                     <Route path='usuario/edit/:id' element={<VerificarUsuario> <UsuarioEdit /> </VerificarUsuario>} />
 
+                    <Route path='proveedor' element={<VerificarUsuario> <ProveedorList /> </VerificarUsuario>} />
+                    <Route path='proveedor/create' element={<VerificarUsuario> <ProveedorForm /> </VerificarUsuario>} />
+                    <Route path='proveedor/edit/:id' element={<VerificarUsuario> <ProveedorEdit /> </VerificarUsuario>} />
                 </Route>
                 
             </Routes>

@@ -27,7 +27,7 @@ export const updateUsuario = async (id, data) => {
       "correo": String(data.correo).trim(),
       "contraseña": String(data.contraseña).trim(),
       "idRol": parseInt(data.idRol),
-      "estado": String(data.estado).trim
+      "estado": String(data.estado).trim()
     })
   });
 };
