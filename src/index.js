@@ -16,6 +16,12 @@ import ProveedorList from './pages/proveedor/ProveedorList';
 import ProveedorForm from './pages/proveedor/ProveedorForm';
 import ProveedorEdit from './pages/proveedor/ProveedorEdit';
 
+import ClienteList from './pages/cliente/ClienteList';
+import ClienteForm from './pages/cliente/ClienteForm';
+import ClienteEdit from './pages/cliente/ClienteEdit';
+
+import ProductoList from './pages/producto/ProductoList';
+
 import UserProvider from './context/UserProvider';
 import App from './App';
 
@@ -43,6 +49,12 @@ root.render(
                     <Route path='proveedor' element={<VerificarUsuario> <ProveedorList /> </VerificarUsuario>} />
                     <Route path='proveedor/create' element={<VerificarUsuario> <ProveedorForm /> </VerificarUsuario>} />
                     <Route path='proveedor/edit/:id' element={<VerificarUsuario> <ProveedorEdit /> </VerificarUsuario>} />
+
+                    <Route path='cliente' element={<VerificarUsuario> <ClienteList /> </VerificarUsuario>} />
+                    <Route path='cliente/create' element={<VerificarUsuario> <ClienteForm /> </VerificarUsuario>} />
+                    <Route path='cliente/edit/:id' element={<VerificarUsuario> <ClienteEdit /> </VerificarUsuario>} />
+
+                    <Route path='producto' element={<VerificarUsuario> <ProductoList /> </VerificarUsuario>} />
                 </Route>
                 
             </Routes>

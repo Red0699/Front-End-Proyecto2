@@ -28,7 +28,7 @@ const Sidebar = () => {
 
     }, [])
     return (
-        
+
         <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
@@ -41,16 +41,13 @@ const Sidebar = () => {
 
             <hr className="sidebar-divider my-0 " />
 
-            {
-                (dataUser.idRol == 1) &&
-                <li className="nav-item">
-                    <NavLink to="/home" className="nav-link" >
-                        <i className="fas fa-fw fa-house-user"></i>
-                        <span>Inicio</span>
-                    </NavLink>
-                </li>
-            }
 
+            <li className="nav-item">
+                <NavLink to="/home" className="nav-link" >
+                    <i className="fas fa-fw fa-house-user"></i>
+                    <span>Inicio</span>
+                </NavLink>
+            </li>
 
             <hr className="sidebar-divider" />
             {
@@ -67,11 +64,28 @@ const Sidebar = () => {
                 (dataUser.idRol == 1) &&
                 <li className="nav-item">
                     <NavLink to="/proveedor" className="nav-link" >
-                    <i className="fas fa-fw fa-user-check"></i>
+                        <i className="fas fa-fw fa-briefcase"></i>
                         <span>Proveedores</span>
                     </NavLink>
                 </li>
             }
+
+            {
+                (dataUser.idRol == 1) &&
+                <li className="nav-item">
+                    <NavLink to="/cliente" className="nav-link" >
+                        <i className="fas fa-fw fa-user-alt"></i>
+                        <span>Clientes</span>
+                    </NavLink>
+                </li>
+            }
+
+            <li className="nav-item">
+                <NavLink to="/producto" className="nav-link" >
+                    <i className="fas fa-fw fa-user-check"></i>
+                    <span>Productos</span>
+                </NavLink>
+            </li>
 
 
             <li className="nav-item">

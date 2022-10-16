@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import ProveedorService from './../../services/proveedor';
+import ClienteService from './../../services/cliente';
 
 //const API_URL = 'http://localhost:5000/api/usuarios/'
 
@@ -19,7 +19,7 @@ import {
     FormFeedback,
 } from "reactstrap";
 
-const ProveedorEdit = () => {
+const ClienteEdit = () => {
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')
     const [telefono, setTelefono] = useState('')
@@ -50,18 +50,18 @@ const ProveedorEdit = () => {
 */
     useEffect(() => {
         //axios.get(API_URL, { idUsuario: params.idUsuario }).then(res => {
-        ProveedorService.get(params.id).then(res => {
+        ClienteService.get(params.id).then(res => {
             console.log(res.data[0]);
-            const dataProveedor = res.data[0];
-            setNombre(dataProveedor.nombre)
-            setApellido(dataProveedor.apellido)
-            setTelefono(dataProveedor.telefono)
-            setCorreo(dataProveedor.correo)
-            setEstado(dataProveedor.estado)
+            const dataCliente = res.data[0];
+            setNombre(dataCliente.nombre)
+            setApellido(dataCliente.apellido)
+            setTelefono(dataCliente.telefono)
+            setCorreo(dataCliente.correo)
+            setEstado(dataCliente.estado)
         })
     }, []) // eslint-disable-next-line
 
-    const actualizarProveedor = async (e) => {
+    const actualizarCliente = async (e) => {
 
         //const idUsuario = parseInt(params.id);
 
@@ -80,9 +80,9 @@ const ProveedorEdit = () => {
         console.log(id);
 
         try {
-            await ProveedorService.updateProveedor(id, update).then(res => {
+            await ClienteService.updateCliente(id, update).then(res => {
                 //alert(res.data);
-                navigate('/proveedor')
+                navigate('/cliente')
             })
         } catch (error) {
             console.log(error);
@@ -92,9 +92,9 @@ const ProveedorEdit = () => {
     return (
         <Container className="p-5">
             <Card>
-                <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>Editar Proveedor</CardHeader>
+                <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>Editar Cliente</CardHeader>
                 <CardBody>
-                    <Form onSubmit={actualizarProveedor}>
+                    <Form onSubmit={actualizarCliente}>
 
                         <FormGroup>
                             <Label for="nombre">Nombre</Label>
@@ -137,7 +137,7 @@ const ProveedorEdit = () => {
                         </FormGroup>
 
                         <Button type='submit' color="info">Editar</Button>
-                        <Link to="/proveedor" className="btn btn-secondary">Volver</Link>
+                        <Link to="/cliente" className="btn btn-secondary">Volver</Link>
 
                     </Form>
                 </CardBody>
@@ -146,4 +146,4 @@ const ProveedorEdit = () => {
     )
 }
 
-export default ProveedorEdit
+export default ClienteEdit
