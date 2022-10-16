@@ -21,6 +21,8 @@ import ClienteForm from './pages/cliente/ClienteForm';
 import ClienteEdit from './pages/cliente/ClienteEdit';
 
 import ProductoList from './pages/producto/ProductoList';
+import ProductoForm from './pages/producto/ProductoForm';
+import ProductoEdit from './pages/producto/ProductoEdit';
 
 import UserProvider from './context/UserProvider';
 import App from './App';
@@ -55,6 +57,8 @@ root.render(
                     <Route path='cliente/edit/:id' element={<VerificarUsuario> <ClienteEdit /> </VerificarUsuario>} />
 
                     <Route path='producto' element={<VerificarUsuario> <ProductoList /> </VerificarUsuario>} />
+                    <Route path='producto/create' element={<VerificarUsuario> <ProductoForm /> </VerificarUsuario>} />
+                    <Route path='producto/edit/:id' element={<VerificarUsuario> <ProductoEdit /> </VerificarUsuario>} />
                 </Route>
                 
             </Routes>
