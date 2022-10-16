@@ -1,9 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import UsuarioService from './../../services/usuario';
 
-const API_URL = 'http://localhost:5000/api/usuarios/'
+//const API_URL = 'http://localhost:5000/api/usuarios/'
+
+//ReactStrap
+import {
+    Container,
+    Button,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Card,
+    CardBody,
+    CardHeader,
+    FormFeedback,
+} from "reactstrap";
 
 const UsuarioEdit = () => {
     const [primerNombre, setPN] = useState('')
@@ -42,7 +56,7 @@ const UsuarioEdit = () => {
         //axios.get(API_URL, { idUsuario: params.idUsuario }).then(res => {
         UsuarioService.get(params.id).then(res => {
             console.log(res.data[0]);
-            const dataUsuario = res.data[0]; 
+            const dataUsuario = res.data[0];
             setPN(dataUsuario.primerNombre)
             setSN(dataUsuario.segundoNombre)
             setAP(dataUsuario.apellidoPaterno)
@@ -88,93 +102,98 @@ const UsuarioEdit = () => {
     }
 
     return (
-        <div className='container'>
-            <h3>Edit POST</h3>
-            <form onSubmit={actualizarUsuario}>
+        <Container className="p-5">
+            <Card>
+                <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>Editar Usuario</CardHeader>
+                <CardBody>
+                    <Form onSubmit={actualizarUsuario}>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Primer Nombre</label>
-                    <input
-                        value={primerNombre}
-                        onChange={(e) => setPN(e.target.value)}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="primerNombre">Primer Nombre</Label>
+                            <Input
+                                value={primerNombre}
+                                onChange={(e) => setPN(e.target.value)}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Segundo Nombre</label>
-                    <input
-                        value={segundoNombre}
-                        onChange={(e) => setSN(e.target.value)}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="segundoNombre">Segundo Nombre</Label>
+                            <Input
+                                value={segundoNombre}
+                                onChange={(e) => setSN(e.target.value)}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Apellido Paterno</label>
-                    <input
-                        value={apellidoPaterno}
-                        onChange={(e) => setAP(e.target.value)}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="apellidoPaterno">Apellido Paterno</Label>
+                            <Input
+                                value={apellidoPaterno}
+                                onChange={(e) => setAP(e.target.value)}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Apellido Materno</label>
-                    <input
-                        value={apellidoMaterno}
-                        onChange={(e) => setAM(e.target.value)}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="apellidoMaterno">Apellido Materno</Label>
+                            <Input
+                                value={apellidoMaterno}
+                                onChange={(e) => setAM(e.target.value)}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Correo</label>
-                    <input
-                        value={correo}
-                        onChange={(e) => setCorreo(e.target.value)}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="correo">Correo</Label>
+                            <Input
+                                value={correo}
+                                onChange={(e) => setCorreo(e.target.value)}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Telefono</label>
-                    <input
-                        value={telefono}
-                        onChange={(e) => setTelefono(e.target.value)}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="telefono">Telefono</Label>
+                            <Input
+                                value={telefono}
+                                onChange={(e) => setTelefono(e.target.value)}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Contraseña</label>
-                    <input
-                        value={contraseña}
-                        onChange={(e) => setContraseña(e.target.value)}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="contraseña">Contraseña</Label>
+                            <Input
+                                value={contraseña}
+                                onChange={(e) => setContraseña(e.target.value)}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Rol</label>
-                    <input
-                        value={idRol}
-                        onChange={(e) => setIR(e.target.value)}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="idRol">Rol</Label>
+                            <select value={idRol} onChange={(e) => setIR(e.target.value)} className='form-select'>
+                                <option selected value='0'>Seleccione una opción</option>
+                                <option value='1'>Administrador</option>
+                                <option value='2'>Empleado</option>
+                            </select>
+                        </FormGroup>
 
-                <button type='submit' className='btn btn-primary'>Edit</button>
-            </form>
-        </div>
+                        <Button type='submit' color="info">Editar</Button>
+                        <Link to="/usuario" className="btn btn-secondary">Volver</Link>
+
+                    </Form>
+                </CardBody>
+            </Card>
+        </Container>
     )
 }
 

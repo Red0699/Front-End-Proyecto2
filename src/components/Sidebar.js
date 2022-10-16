@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { UserContext } from '../context/UserProvider';
+import './index.scss';
 
 const modelo = {
     primerNombre: "",
@@ -27,7 +28,7 @@ const Sidebar = () => {
 
     }, [])
     return (
-
+        
         <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
@@ -38,7 +39,7 @@ const Sidebar = () => {
             </Link>
 
 
-            <hr className="sidebar-divider my-0" />
+            <hr className="sidebar-divider my-0 " />
 
             {
                 (dataUser.idRol == 1) &&

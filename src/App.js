@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import NavBar from './components/Sidebar'
+import Sidebar from './components/Sidebar'
 import { Link } from 'react-router-dom';
 import { UserContext } from './context/UserProvider';
 import Swal from 'sweetalert2'
 import { useState } from 'react';
+import './App.scss'
 
 const modelo = {
   primerNombre: "",
@@ -48,14 +49,14 @@ const App = () => {
   return (
     <>
 
-      <NavBar />
+      <Sidebar />
 
       {/*Content Wrapper*/}
       <div id="content-wrapper" className="d-flex flex-column">
 
         {/*Main Content*/}
         <div id="content">
-          <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <nav className="navbar navbar-expand sticky-bottom navbar-light bg-white topbar mb-4 static-top shadow">
 
             {/* Sidebar Toggle (Topbar) */}
             <button id="sidebarToggleTop" className="btn btn-link d-md-none rounded-circle mr-3">

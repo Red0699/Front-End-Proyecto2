@@ -1,6 +1,22 @@
 import React, { useState } from "react";
 import UsuarioService from './../../services/usuario';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Select from 'react-select'
+
+//ReactStrap
+import {
+    Container,
+    Button,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Card,
+    CardBody,
+    CardHeader,
+    FormFeedback,
+} from "reactstrap";
+
 
 const UsuarioForm = () => {
     const initialTutorialState = {
@@ -56,105 +72,115 @@ const UsuarioForm = () => {
             });
     };
 
+    const options = [
+        {value: '1', label:'Administrador'},
+        {value: '2', label:'Empleado'}
+    ]
+
 
     return (
-        <div className="submit-form">
+        <Container className="p-5">
+            <Card>
+                <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>Crear Usuario</CardHeader>
+                <CardBody>
+                    <Form>
 
-            <div>
-                <div className='mb-3'>
-                    <label className='form-label'>Primer Nombre</label>
-                    <input
-                        name='primerNombre'
-                        value={usuario.primerNombre}
-                        onChange={handleInputChange}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="primerNombre">Primer Nombre</Label>
+                            <Input
+                                name='primerNombre'
+                                value={usuario.primerNombre}
+                                onChange={handleInputChange}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Segundo Nombre</label>
-                    <input
-                        name="segundoNombre"
-                        value={usuario.segundoNombre}
-                        onChange={handleInputChange}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="segundoNombre">Segundo Nombre</Label>
+                            <Input
+                                name="segundoNombre"
+                                value={usuario.segundoNombre}
+                                onChange={handleInputChange}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Apellido Paterno</label>
-                    <input
-                        name="apellidoPaterno"
-                        value={usuario.apellidoPaterno}
-                        onChange={handleInputChange}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="apellidoPaterno">Apellido Paterno</Label>
+                            <Input
+                                name="apellidoPaterno"
+                                value={usuario.apellidoPaterno}
+                                onChange={handleInputChange}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Apellido Materno</label>
-                    <input
-                        name="apellidoMaterno"
-                        value={usuario.apellidoMaterno}
-                        onChange={handleInputChange}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="apellidoMaterno">Apellido Materno</Label>
+                            <Input
+                                name="apellidoMaterno"
+                                value={usuario.apellidoMaterno}
+                                onChange={handleInputChange}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Correo</label>
-                    <input
-                        name="correo"
-                        value={usuario.correo}
-                        onChange={handleInputChange}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="correo">Correo</Label>
+                            <input
+                                name="correo"
+                                value={usuario.correo}
+                                onChange={handleInputChange}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Telefono</label>
-                    <input
-                        name="telefono"
-                        value={usuario.telefono}
-                        onChange={handleInputChange}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="telefono">Telefono</Label>
+                            <Input
+                                name="telefono"
+                                value={usuario.telefono}
+                                onChange={handleInputChange}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Contraseña</label>
-                    <input
-                        name="contraseña"
-                        value={usuario.contraseña}
-                        onChange={handleInputChange}
-                        type="text"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="contraseña">Contraseña</Label>
+                            <Input
+                                name="contraseña"
+                                value={usuario.contraseña}
+                                onChange={handleInputChange}
+                                type="text"
+                                className='form-control'
+                            />
+                        </FormGroup>
 
-                <div className='mb-3'>
-                    <label className='form-label'>Rol</label>
-                    <input
-                        name="idRol"
-                        value={usuario.idRol}
-                        onChange={handleInputChange}
-                        type="number"
-                        className='form-control'
-                    />
-                </div>
+                        <FormGroup>
+                            <Label for="idRol">Rol</Label>
+                            <select className="form-select" name="idRol" defaultValue={usuario.idRol} onChange={handleInputChange}>
+                                <option selected value='0'>Seleccione una opción</option>
+                                <option value='1'>Administrador</option>
+                                <option value='2'>Empleado</option>
+                            </select>
+                        </FormGroup>
 
-                <button onClick={agregarUsuario} className="btn btn-success">
-                    Submit
-                </button>
-            </div>
+                        <Button onClick={agregarUsuario} color="info">
+                            Guardar
+                        </Button>
 
-        </div>
+                        <Link to="/usuario" className="btn btn-secondary">Volver</Link>
+
+                    </Form>
+                </CardBody>
+            </Card>
+        </Container>
     );
 };
 

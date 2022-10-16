@@ -7,11 +7,9 @@ import DataTable from 'react-data-table-component'
 import Swal from 'sweetalert2'
 
 //ReactStrap
-import { Card, CardBody, CardHeader, Button, Modal, ModalHeader, ModalBody, Label, Input, FormGroup, ModalFooter, Row, Col } from "reactstrap";
+import { Card, CardBody, CardHeader, Button } from "reactstrap";
 
-//React Icons
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai'
+//Services
 import UsuarioService from '../../services/usuario';
 
 const API_URL = 'http://localhost:5000/api/usuarios/'
