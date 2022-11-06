@@ -24,6 +24,9 @@ import ProductoList from './pages/producto/ProductoList';
 import ProductoForm from './pages/producto/ProductoForm';
 import ProductoEdit from './pages/producto/ProductoEdit';
 
+import EntradaList from './pages/entrada/EntradaList';
+import EntradaForm from './pages/entrada/EntradaForm';
+
 import UserProvider from './context/UserProvider';
 import App from './App';
 
@@ -59,6 +62,9 @@ root.render(
                     <Route path='producto' element={<VerificarUsuario> <ProductoList /> </VerificarUsuario>} />
                     <Route path='producto/create' element={<VerificarUsuario> <ProductoForm /> </VerificarUsuario>} />
                     <Route path='producto/edit/:id' element={<VerificarUsuario> <ProductoEdit /> </VerificarUsuario>} />
+
+                    <Route path='entrada' element={<VerificarUsuario> <EntradaList /> </VerificarUsuario>} />
+                    <Route path='entrada/create' element={<VerificarUsuario> <EntradaForm /> </VerificarUsuario>} />
                 </Route>
                 
             </Routes>

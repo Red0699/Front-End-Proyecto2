@@ -87,6 +87,13 @@ const Sidebar = () => {
                 </NavLink>
             </li>
 
+            <li className="nav-item">
+                <NavLink to="/entrada" className="nav-link" >
+                    <i className="fas fa-fw fa-user-check"></i>
+                    <span>Entradas</span>
+                </NavLink>
+            </li>
+
 
             <li className="nav-item">
                 <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVenta"

@@ -22,7 +22,24 @@ export const updateProducto = async (id, data) => {
       "descripcion": String(data.descripcion).trim(),
       "almacen": String(data.almacen).trim(),
       "idCategoria": parseInt(data.idCategoria),
-      "estado": String(data.estado).trim()
+      //"precioCompra": parseFloat(data.precioCompra),
+      //"precioVenta": parseFloat(data.precioVenta),
+      //"stock": parseInt(data.stock),
+      "estadoProd": String(data.estado).trim()
+    })
+  });
+};
+
+export const updateProductoEntrada = async (id, data) => {
+  return await fetch(`http://localhost:5000/api/productosEntrada/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "precioCompra": parseFloat(data.precioCompra),
+      "precioVenta": parseFloat(data.precioVenta),
+      "stock": parseInt(data.stock),
     })
   });
 };
@@ -39,7 +56,7 @@ export const deshabilitarProducto = async (id) => {
         "descripcion": res.data[0].descripcion,
         "almacen": res.data[0].almacen,
         "idCategoria": res.data[0].idCategoria,
-        "estado": "Inactivo"
+        "estadoProd": "Inactivo"
     })
   });
 }
@@ -55,7 +72,8 @@ const ProductoService = {
   get,
   create,
   updateProducto,
-  deshabilitarProducto
+  deshabilitarProducto,
+  updateProductoEntrada
   //findByTitle
 };
 
