@@ -18,15 +18,15 @@ function ProductoList() {
 
     const navigate = useNavigate();
 
-    const [clientes, setCliente] = useState([])
+    const [productos, setProducto] = useState([])
     useEffect(() => {
         getProductos()
     }, [])
 
-    //procedimineto para mostrar todos los clientes
+    //procedimineto para mostrar todos los productos
     const getProductos = async () => {
         const res = await axios.get(API_URL)
-        setCliente(res.data)
+        setProducto(res.data)
     }
 
     //Columnas tabla
@@ -110,7 +110,7 @@ function ProductoList() {
                         'success'
                     )
                 });
-                //navigate("/clientes");
+                //navigate("/productos");
             }
         })
     }
@@ -127,7 +127,7 @@ function ProductoList() {
                     <hr></hr>
                     <DataTable
                         columns={columns}
-                        data={clientes}
+                        data={productos}
                         pagination
                         paginationComponentOptions={paginationComponentOptions}
                         customStyles={customStyles}

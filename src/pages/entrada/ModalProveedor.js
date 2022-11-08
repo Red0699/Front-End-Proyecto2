@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -15,8 +14,7 @@ import ProveedorService from '../../services/proveedor'
 
 const API_URL = 'http://localhost:5000/api/proveedores/'
 
-function ProveedorList() {
-
+function ModalProveedor() {
     const navigate = useNavigate();
 
     const [proveedores, setProveedor] = useState([])
@@ -92,56 +90,6 @@ function ProveedorList() {
         selectAllRowsItem: true,
         selectAllRowsItemText: 'Todos',
     };
-
-    //procedimineto para desabilitar un usuario
-    const deshabilitarProveedor = async (id) => {
-
-        Swal.fire({
-            title: 'Esta seguro?',
-            text: "Desea eliminar el proveedor",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, continuar',
-            cancelButtonText: 'No, volver'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                ProveedorService.deshabilitarProveedor(id).then(response => {
-                    getProveedores();
-
-                    Swal.fire(
-                        'Eliminado!',
-                        'El proveedor fue eliminado.',
-                        'success'
-                    )
-                });
-                //navigate("/proveedores");
-            }
-        })
-    }
-
-
-    return (
-        <>
-            <Card>
-                <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>
-                    Lista de Proveedores
-                </CardHeader>
-                <CardBody>
-                    <Link to="/proveedor/create" className='btn btn-success' size="sm">Nuevo Proveedor</Link>
-                    <hr></hr>
-                    <DataTable
-                        columns={columns}
-                        data={proveedores}
-                        pagination
-                        paginationComponentOptions={paginationComponentOptions}
-                        customStyles={customStyles}
-                    />
-                </CardBody>
-            </Card>
-        </>
-    )
 }
 
-export default ProveedorList
+export default ModalProveedor;
