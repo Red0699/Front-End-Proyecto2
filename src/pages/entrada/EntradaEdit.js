@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProductoService from './../../services/producto';
 import EntradaService from "../../services/entrada";
 import ProveedorService from "../../services/proveedor";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import DataTable from 'react-data-table-component'
 
 //import ProveedorList from '../proveedor/ProveedorList';
@@ -24,10 +24,10 @@ import {
     Modal,
     ModalBody
 } from "reactstrap";
-import { data } from "jquery";
 
 
-const EntradaForm = () => {
+
+const EntradaEdit = () => {
     const initialTutorialState = {
         idEntrada: 0,
         idProducto: 0,
@@ -44,7 +44,8 @@ const EntradaForm = () => {
     const [producto, setProducto] = useState(initialProductoState);
     const [entrada, setEntrada] = useState(initialTutorialState);
     const [verModal, setVerModal] = useState(false);
-    const [verModal2, setVerModal2] = useState(false);
+    const [dataProducto, setDataProducto] = useState('');
+    const params = useParams();
 
     //-------------------------------------------------------- FORMULARIO ENTRADA -----------------------------------------------------------------------------
 
@@ -54,7 +55,7 @@ const EntradaForm = () => {
         setEntrada({ ...entrada, [name]: value });
     };
 
-    const agregarEntrada = () => {
+    const editarEntrada = () => {
         var dataEntrada = {
             idProducto: entrada.idProducto,
             idProveedor: entrada.idProveedor,
@@ -93,6 +94,7 @@ const EntradaForm = () => {
                 console.log(err);
             })
     };
+
 
     //--------------------------------------------------- MODAL LISTA PROVEEDORES ---------------------------------------------------------------------------
     const [proveedores, setProveedor] = useState([])
@@ -154,60 +156,7 @@ const EntradaForm = () => {
         },
     ];
 
-    //--------------------------------------------------- MODAL LISTA PRODUCTOS ---------------------------------------------------------------------------
-    const [productos, setProductos] = useState([])
-    const [dataProducto, setDataProducto] = useState('');
-
-    const getProductos = async () => {
-        await ProductoService.getAll().then(response => {
-            setProductos(response.data)
-        })
-    }
-    const abrirModal2 = () => {
-        setVerModal2(!verModal2);
-    }
-
-    const getProductoModal = async (dataP) => {
-        console.log(dataP);
-        setDataProducto(dataP);
-        entrada.idProducto = dataP.idProducto;
-        setVerModal2(!verModal2);
-    }
-
-    //Columnas tabla
-    const columnsProducto = [
-        {
-            name: 'Descripción',
-            selector: row => row.descripcion,
-            sortable: true,
-        },
-        {
-            name: 'Almacen',
-            selector: row => row.almacen,
-            sortable: true,
-        },
-
-        {
-            name: 'Categoría',
-            selector: row => row.idCategoria,
-            sortable: true,
-        },
-        {
-            name: '',
-            cell: row => (
-                <>
-                    <Button style={{ backgroundColor: '#0E6655', color: "white" }} size="sm"
-                        onClick={() => getProductoModal(row)}
-                    >
-                        <i className="fas fa-check"></i>
-                    </Button>
-                </>
-            ),
-        },
-    ];
-
-
-
+    
     //------------------------------------------------------- ESTILO TABLAS ---------------------------------------------------------------------------------
     const customStyles = {
         headCells: {
@@ -230,16 +179,29 @@ const EntradaForm = () => {
         selectAllRowsItemText: 'Todos',
     };
 
+    const getDataForm = () => {
+
+        EntradaService.get(params.id).then(response => {
+            const dataE = response.data[0];
+            console.log(dataE)
+            setEntrada(dataE)
+            setProducto(dataE)
+            setDataProducto(dataE)
+            setDataProveedor(dataE)
+        })
+    }
+
+
     useEffect(() => {
         getProveedores()
-        getProductos()
+        getDataForm()
     }, [])
 
     return (
         <>
             <Container className="p-5">
                 <Card>
-                    <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>Crear Entrada</CardHeader>
+                    <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>Editar Entrada</CardHeader>
                     <CardBody>
                         <Form>
                             <Row className="row-cols-lg g-3 align-items-center">
@@ -269,11 +231,6 @@ const EntradaForm = () => {
                                             disabled='disabled'
                                         />
                                     </FormGroup>
-                                </Col>
-                                <Col>
-                                    <Button color="info" onClick={() => abrirModal2(!verModal2)}>
-                                        <i className="fas fa-search"></i>
-                                    </Button>
                                 </Col>
                             </Row>
                             <Row className="row-cols-lg g-3 align-items-center">
@@ -345,7 +302,7 @@ const EntradaForm = () => {
                                 />
                             </FormGroup>
 
-                            <Button onClick={agregarEntrada} color="info">
+                            <Button onClick={editarEntrada} color="info">
                                 Guardar
                             </Button>
 
@@ -355,28 +312,6 @@ const EntradaForm = () => {
                     </CardBody>
                 </Card>
             </Container>
-
-            <Modal isOpen={verModal2}>
-                <ModalBody>
-                    <Card>
-                        <CardHeader style={{ backgroundColor: '#0E6655', color: "white" }}>
-                            Lista de Productos
-                        </CardHeader>
-                        <CardBody>
-                            <Link className='btn btn-danger' onClick={() => abrirModal2(!verModal2)} size="sm"><i className="fas fa-times-circle"></i></Link>
-                            <hr></hr>
-                            <DataTable
-                                columns={columnsProducto}
-                                data={productos}
-                                pagination
-                                paginationComponentOptions={paginationComponentOptions}
-                                customStyles={customStyles}
-                            />
-                        </CardBody>
-                    </Card>
-                </ModalBody>
-
-            </Modal>
 
             <Modal isOpen={verModal}>
                 <ModalBody>
@@ -404,4 +339,4 @@ const EntradaForm = () => {
     );
 };
 
-export default EntradaForm;
+export default EntradaEdit;

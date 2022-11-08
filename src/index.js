@@ -26,6 +26,7 @@ import ProductoEdit from './pages/producto/ProductoEdit';
 
 import EntradaList from './pages/entrada/EntradaList';
 import EntradaForm from './pages/entrada/EntradaForm';
+import EntradaEdit from './pages/entrada/EntradaEdit';
 
 import UserProvider from './context/UserProvider';
 import App from './App';
@@ -65,6 +66,7 @@ root.render(
 
                     <Route path='entrada' element={<VerificarUsuario> <EntradaList /> </VerificarUsuario>} />
                     <Route path='entrada/create' element={<VerificarUsuario> <EntradaForm /> </VerificarUsuario>} />
+                    <Route path='entrada/edit/:id' element={<VerificarUsuario> <EntradaEdit /> </VerificarUsuario>} />
                 </Route>
                 
             </Routes>

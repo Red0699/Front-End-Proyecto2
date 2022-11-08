@@ -6,11 +6,16 @@ const getAll = () => {
 
 const create = data => {
     return http.post("/entrada", data);
-  };
+};
+
+const get = id => {
+  return http.get(`/entrada/${id}`);
+};
 
 const EntradaService = {
     getAll,
-    create
+    create,
+    get
   };
   
   export default EntradaService;

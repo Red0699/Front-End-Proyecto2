@@ -75,7 +75,7 @@ function EntradaList() {
             name: '',
             cell: row => (
                 <>
-                    <Link to={`/producto/edit/${row.idEntrada}`} color="primary" size="sm" className="mr-2"
+                    <Link to={`/entrada/edit/${row.idEntrada}`} color="primary" size="sm" className="mr-2"
                     >
                         <i className="fas fa-pen-alt"></i>
                     </Link>
