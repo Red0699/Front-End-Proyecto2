@@ -95,6 +95,13 @@ const Sidebar = () => {
             </li>
 
             <li className="nav-item">
+                <NavLink to="/salida" className="nav-link" >
+                <i className="fas fa-wallet"></i>
+                    <span>Salidas</span>
+                </NavLink>
+            </li>
+
+            <li className="nav-item">
                 <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVenta"
                     aria-expanded="true" aria-controls="collapseVenta">
                     <i className="fas fa-fw fa-tag"></i>

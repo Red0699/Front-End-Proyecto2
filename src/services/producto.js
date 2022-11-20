@@ -4,6 +4,14 @@ const getAll = () => {
   return http.get("/productos");
 };
 
+const getAllProdEnIn = () => {
+  return http.get("/productosEnIn");
+};
+
+const getAllProdEn = () => {
+  return http.get("/productosEn")
+}
+
 const get = id => {
   return http.get(`/productos/${id}`);
 };
@@ -44,6 +52,21 @@ export const updateProductoEntrada = async (id, data) => {
   });
 };
 
+export const updateProductoSalida = async (id, data) => {
+  const res = await http.get(`/productos/${id}`)
+  return await fetch(`http://localhost:5000/api/productosEntrada/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "precioCompra": res.data[0].precioCompra,
+      "precioVenta": res.data[0].precioVenta,
+      "stock": parseFloat(data.stock),
+    })
+  });
+}
+
 export const deshabilitarProducto = async (id) => {
   const res = await http.get(`/productos/${id}`)
 
@@ -56,7 +79,26 @@ export const deshabilitarProducto = async (id) => {
         "descripcion": res.data[0].descripcion,
         "almacen": res.data[0].almacen,
         "idCategoria": res.data[0].idCategoria,
+        "estadoEntrada": "Inactivo",
         "estadoProd": "Inactivo"
+    })
+  });
+}
+
+export const deshabilitarEntrada = async (id) => {
+  const res = await http.get(`/productos/${id}`)
+
+  return await fetch(`http://localhost:5000/api/productos/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        "descripcion": res.data[0].descripcion,
+        "almacen": res.data[0].almacen,
+        "idCategoria": res.data[0].idCategoria,
+        "estadoProd": res.data[0].estadoProd,
+        "estadoEntrada": "Inactivo"
     })
   });
 }
@@ -73,7 +115,11 @@ const ProductoService = {
   create,
   updateProducto,
   deshabilitarProducto,
-  updateProductoEntrada
+  updateProductoEntrada,
+  updateProductoSalida,
+  deshabilitarEntrada,
+  getAllProdEnIn,
+  getAllProdEn
   //findByTitle
 };
 

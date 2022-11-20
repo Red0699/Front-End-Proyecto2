@@ -28,6 +28,9 @@ import EntradaList from './pages/entrada/EntradaList';
 import EntradaForm from './pages/entrada/EntradaForm';
 import EntradaEdit from './pages/entrada/EntradaEdit';
 
+import SalidaList from './pages/salida/SalidaList';
+import SalidaForm from './pages/salida/SalidaForm';
+
 import UserProvider from './context/UserProvider';
 import App from './App';
 
@@ -67,6 +70,9 @@ root.render(
                     <Route path='entrada' element={<VerificarUsuario> <EntradaList /> </VerificarUsuario>} />
                     <Route path='entrada/create' element={<VerificarUsuario> <EntradaForm /> </VerificarUsuario>} />
                     <Route path='entrada/edit/:id' element={<VerificarUsuario> <EntradaEdit /> </VerificarUsuario>} />
+
+                    <Route path='salida' element={<VerificarUsuario> <SalidaList /> </VerificarUsuario>} />
+                    <Route path='salida/create' element={<VerificarUsuario> <SalidaForm /> </VerificarUsuario>} />
                 </Route>
                 
             </Routes>

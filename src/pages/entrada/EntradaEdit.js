@@ -59,6 +59,8 @@ const EntradaEdit = () => {
         var dataEntrada = {
             idProducto: entrada.idProducto,
             idProveedor: entrada.idProveedor,
+            estado: entrada.estado,
+            montoTotal: entrada.montoTotal
         };
 
         var dataProducto = {
@@ -67,14 +69,17 @@ const EntradaEdit = () => {
             stock: producto.stock
         }
 
-        EntradaService.create(dataEntrada)
+        EntradaService.updateEntrada(params.id,dataEntrada)
             .then(response => {
+                /*
                 setEntrada({
+
                     //id: response.data.id,
                     idProducto: response.dataEntrada.idProducto,
                     idProveedor: response.dataEntrada.idProveedor,
                 });
-                console.log(response.data);
+                console.log(response.dataEntrada);
+                */
                 navigate('/entrada');
             })
             .catch(e => {
@@ -83,12 +88,14 @@ const EntradaEdit = () => {
 
         ProductoService.updateProductoEntrada(entrada.idProducto, dataProducto)
             .then(response => {
+                /*
                 setProducto({
                     precioCompra: response.dataProducto.precioCompra,
                     precioVenta: response.dataProducto.precioVenta,
                     stock: response.dataProducto.stock
                 });
                 console.log(response.dataProducto);
+                */
             })
             .catch(err => {
                 console.log(err);

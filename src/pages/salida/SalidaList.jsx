@@ -10,74 +10,81 @@ import Swal from 'sweetalert2'
 import { Card, CardBody, CardHeader, Button } from "reactstrap";
 
 //Services
-import UsuarioService from '../../services/usuario';
+import ProductoService from '../../services/producto'
+import SalidaService from '../../services/entrada'
 
-const API_URL = 'http://localhost:5000/api/usuarios/'
+const API_URL = 'http://localhost:5000/api/salida'
 
-function UsuarioList() {
+function SalidaList() {
 
     const navigate = useNavigate();
 
-    const [usuarios, setUsuario] = useState([])
+    const [salidas, setSalida] = useState([])
     useEffect(() => {
-        getUsuarios()
+        getSalidas()
     }, [])
 
-    //procedimineto para mostrar todos los usuarios
-    const getUsuarios = async () => {
+    //procedimineto para mostrar todos los salidas
+    const getSalidas = async () => {
         const res = await axios.get(API_URL)
-        setUsuario(res.data)
-        console.log(res.data);
+        //console.log(res.data)
+        setSalida(res.data)
     }
 
     //Columnas tabla
     const columns = [
         {
-            name: 'Nombre 1',
-            selector: row => row.primerNombre,
-            sortable: true,
-        },
-        {
-            name: 'Nombre 2',
-            selector: row => row.segundoNombre,
-            sortable: true,
-        },
-        {
-            name: 'Apellido 1',
-            selector: row => row.apellidoPaterno,
-            sortable: true,
-        },
-        {
-            name: 'Apellido 2',
-            selector: row => row.apellidoMaterno,
-            sortable: true,
-        },
-        {
-            name: 'Correo',
-            selector: row => row.correo,
-            sortable: true,
-        },
-        {
-            name: 'Telefono',
-            selector: row => row.telefono,
-            sortable: true,
-        },
-        {
-            name: 'Rol',
-            selector: row => row.descripcion,
+            name: 'Codigo',
+            selector: row => row.idSalida,
             sortable: true
         },
+
+        {
+            name: 'ID Cliente',
+            selector: row => row.idCliente,
+            sortable: true,
+        },
+
+        {
+            name: 'Producto',
+            selector: row => row.descripcion,
+            sortable: true,
+        },
+        {
+            name: 'Categoría',
+            selector: row => row.idCategoria,
+            sortable: true,
+        },
+
+        {
+            name: 'Cantidad',
+            selector: row => row.cantidadProducto,
+            sortable: true
+        },
+        
+        {
+            name: 'Precio',
+            selector: row => row.precioCompra,
+            sortable: true
+        },
+
+        {
+            name: 'Subtotal',
+            selector: row => row.subtotal,
+            sortable: true
+        },
+
         {
             name: '',
             cell: row => (
                 <>
-                    <Link to={`/usuario/edit/${row.idUsuario}`} color="primary" size="sm" className="mr-2"
+                    <Link to={`/salida/edit/${row.idSalida}`} color="primary" size="sm" className="mr-2"
                     >
                         <i className="fas fa-pen-alt"></i>
                     </Link>
 
                     <Button color="danger" size="sm"
-                        onClick={() => deshabilitarUsuario(row.idUsuario)}
+                        onClick={() => deshabilitarSalidaProd(row.idProducto, row.idSalida)}
                     >
                         <i className="fas fa-trash-alt"></i>
                     </Button>
@@ -108,11 +115,11 @@ function UsuarioList() {
     };
 
     //procedimineto para desabilitar un usuario
-    const deshabilitarUsuario = async (id) => {
-
+    const deshabilitarSalidaProd = async (id, idSalida) => {
+        console.log(id)
         Swal.fire({
             title: 'Esta seguro?',
-            text: "Desea eliminar el usuario",
+            text: "Desea eliminar la entrada",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -121,16 +128,18 @@ function UsuarioList() {
             cancelButtonText: 'No, volver'
         }).then((result) => {
             if (result.isConfirmed) {
-                UsuarioService.deshabilitarUsuario(id).then(response => {
-                    getUsuarios();
+                ProductoService.deshabilitarEntrada(id).then(response => {
+                    getSalidas();
 
                     Swal.fire(
                         'Eliminado!',
-                        'El usuario fue eliminado.',
+                        'La entrada fue eliminada.',
                         'success'
                     )
                 });
-                //navigate("/usuarios");
+
+                SalidaService.deshabilitarEntrada(idSalida);
+                //navigate("/salidas");
             }
         })
     }
@@ -140,14 +149,14 @@ function UsuarioList() {
         <>
             <Card>
                 <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>
-                    Lista de Usuarios
+                    Lista de Salidas
                 </CardHeader>
                 <CardBody>
-                    <Link to="/usuario/create" className='btn btn-success' size="sm">Nuevo Usuario</Link>
+                    <Link to="/salida/create" className='btn btn-success' size="sm">Nueva Salida</Link>
                     <hr></hr>
                     <DataTable
                         columns={columns}
-                        data={usuarios}
+                        data={salidas}
                         pagination
                         paginationComponentOptions={paginationComponentOptions}
                         customStyles={customStyles}
@@ -158,4 +167,4 @@ function UsuarioList() {
     )
 }
 
-export default UsuarioList
+export default SalidaList

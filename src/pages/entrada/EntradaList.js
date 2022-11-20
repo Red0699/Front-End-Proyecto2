@@ -11,6 +11,7 @@ import { Card, CardBody, CardHeader, Button } from "reactstrap";
 
 //Services
 import ProductoService from '../../services/producto'
+import EntradaService from '../../services/entrada'
 
 const API_URL = 'http://localhost:5000/api/entrada/'
 
@@ -81,7 +82,7 @@ function EntradaList() {
                     </Link>
 
                     <Button color="danger" size="sm"
-                        onClick={() => deshabilitarEntrada(row.idEntrada)}
+                        onClick={() => deshabilitarEntradaProd(row.idProducto, row.idEntrada)}
                     >
                         <i className="fas fa-trash-alt"></i>
                     </Button>
@@ -112,8 +113,8 @@ function EntradaList() {
     };
 
     //procedimineto para desabilitar un usuario
-    const deshabilitarEntrada = async (id) => {
-
+    const deshabilitarEntradaProd = async (id, idEntrada) => {
+        console.log(id)
         Swal.fire({
             title: 'Esta seguro?',
             text: "Desea eliminar la entrada",
@@ -134,6 +135,8 @@ function EntradaList() {
                         'success'
                     )
                 });
+
+                EntradaService.deshabilitarEntrada(idEntrada);
                 //navigate("/entradas");
             }
         })

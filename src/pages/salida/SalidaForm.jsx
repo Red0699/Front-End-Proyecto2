@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProductoService from './../../services/producto';
-import EntradaService from "../../services/entrada";
-import ProveedorService from "../../services/proveedor";
+import SalidaService from "../../services/salida";
+import ClienteService from "../../services/cliente";
 import { Link, useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component'
 
@@ -24,57 +24,57 @@ import {
     Modal,
     ModalBody
 } from "reactstrap";
-import { data } from "jquery";
 
 
-const EntradaForm = () => {
+
+const SalidaForm = () => {
     const initialTutorialState = {
-        idEntrada: 0,
+        idSalida: 0,
         idProducto: 0,
-        idProveedor: 0,
-
+        idCliente: 0,
+        cantidadProducto: 0,
+        subtotal: 0
     };
 
     const initialProductoState = {
-        precioCompra: 0,
-        precioVenta: 0,
         stock: 0
     }
     const navigate = useNavigate();
     const [producto, setProducto] = useState(initialProductoState);
-    const [entrada, setEntrada] = useState(initialTutorialState);
+    const [salida, setSalida] = useState(initialTutorialState);
     const [verModal, setVerModal] = useState(false);
     const [verModal2, setVerModal2] = useState(false);
-    //-------------------------------------------------------- FORMULARIO ENTRADA -----------------------------------------------------------------------------
+
+    //-------------------------------------------------------- FORMULARIO SALIDA -----------------------------------------------------------------------------
 
     const handleInputChange = event => {
         const { name, value } = event.target;
         setProducto({ ...producto, [name]: value });
-        setEntrada({ ...entrada, [name]: value });
+        setSalida({ ...salida, [name]: value });
     };
 
-    const agregarEntrada = () => {
-        var dataEntrada = {
-            idProducto: entrada.idProducto,
-            idProveedor: entrada.idProveedor,
+    const agregarSalida = () => {
+        var dataSalida = {
+            idProducto: salida.idProducto,
+            idCliente: salida.idCliente,
+            cantidadProducto: salida.cantidadProducto,
+            subtotal: dataProd.precioCompra * salida.cantidadProducto
         };
 
         var dataProducto = {
-            precioCompra: producto.precioCompra,
-            precioVenta: producto.precioVenta,
-            stock: producto.stock
+            stock: dataProd.stock - salida.cantidadProducto
         }
 
-        EntradaService.create(dataEntrada)
+        SalidaService.create(dataSalida)
             .then(response => {
                 /*
-                setEntrada({
+                setSalida({
                     //id: response.data.id,
-                    idProducto: response.dataEntrada.idProducto,
-                    idProveedor: response.dataEntrada.idProveedor,
+                    idProducto: response.dataSalida.idProducto,
+                    idCliente: response.dataSalida.idCliente,
                 });
                 //console.log(response.data);
-                navigate('/entrada');
+                navigate('/salida');
                 */
             })
             .catch(e => {
@@ -82,7 +82,7 @@ const EntradaForm = () => {
                 //band = false;
             });
 
-        ProductoService.updateProductoEntrada(entrada.idProducto, dataProducto)
+        ProductoService.updateProductoSalida(salida.idProducto, dataProducto)
             .then(response => {
                 /*
                 setProducto({
@@ -97,34 +97,34 @@ const EntradaForm = () => {
                 console.log(err);
                 //band = false;
             })
-            navigate('/entrada')
+        navigate('/salida')
     };
 
-    //--------------------------------------------------- MODAL LISTA PROVEEDORES ---------------------------------------------------------------------------
-    const [proveedores, setProveedor] = useState([])
-    const [dataProveedor, setDataProveedor] = useState('');
+    //--------------------------------------------------- MODAL LISTA CLIENTES ---------------------------------------------------------------------------
+    const [clientes, setCliente] = useState([])
+    const [dataCliente, setDataCliente] = useState('');
 
     const abrirModal = () => {
         setVerModal(!verModal);
     }
 
-    //procedimineto para mostrar todos los proveedores
-    const getProveedores = async () => {
-        await ProveedorService.getAll().then(response => {
-            setProveedor(response.data)
+    //procedimineto para mostrar todos los clientes
+    const getClientes = async () => {
+        await ClienteService.getAll().then(response => {
+            setCliente(response.data)
         })
     }
 
-    const getProveedorModal = async (data) => {
-        //console.log(data.idProveedor);
-        setDataProveedor(data);
-        //setEntrada({ idProveedor: data.idProveedor })
-        entrada.idProveedor = data.idProveedor;
+    const getClienteModal = async (data) => {
+        //console.log(data.idCliente);
+        setDataCliente(data);
+        //setSalida({ idCliente: data.idCliente })
+        salida.idCliente = data.idCliente;
         setVerModal(!verModal);
     }
 
     //Columnas tabla
-    const columnsProveedor = [
+    const columnsCliente = [
         {
             name: 'Nombre',
             selector: row => row.nombre,
@@ -151,7 +151,7 @@ const EntradaForm = () => {
             cell: row => (
                 <>
                     <Button style={{ backgroundColor: '#884EA0', color: "white" }} size="sm"
-                        onClick={() => getProveedorModal(row)}
+                        onClick={() => getClienteModal(row)}
                     >
                         <i className="fas fa-check"></i>
                     </Button>
@@ -162,10 +162,10 @@ const EntradaForm = () => {
 
     //--------------------------------------------------- MODAL LISTA PRODUCTOS ---------------------------------------------------------------------------
     const [productos, setProductos] = useState([])
-    const [dataProducto, setDataProducto] = useState('');
+    const [dataProd, setDataProducto] = useState('');
 
     const getProductos = async () => {
-        await ProductoService.getAllProdEnIn().then(response => {
+        await ProductoService.getAllProdEn().then(response => {
             setProductos(response.data)
         })
     }
@@ -176,7 +176,7 @@ const EntradaForm = () => {
     const getProductoModal = async (dataP) => {
         console.log(dataP);
         setDataProducto(dataP);
-        entrada.idProducto = dataP.idProducto;
+        salida.idProducto = dataP.idProducto;
         setVerModal2(!verModal2);
     }
 
@@ -237,7 +237,7 @@ const EntradaForm = () => {
     };
 
     useEffect(() => {
-        getProveedores()
+        getClientes()
         getProductos()
     }, [])
 
@@ -245,7 +245,7 @@ const EntradaForm = () => {
         <>
             <Container className="p-5">
                 <Card>
-                    <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>Crear Entrada</CardHeader>
+                    <CardHeader style={{ backgroundColor: '#4e73df', color: "white" }}>Crear Salida</CardHeader>
                     <CardBody>
                         <Form>
                             <Row className="row-cols-lg g-3 align-items-center">
@@ -254,7 +254,7 @@ const EntradaForm = () => {
                                         <Label for="idProducto">ID Producto</Label>
                                         <Input
                                             name='idProducto'
-                                            value={entrada.idProducto || ''}
+                                            value={salida.idProducto || ''}
                                             onChange={handleInputChange}
                                             type="number"
                                             className='form-control'
@@ -269,7 +269,7 @@ const EntradaForm = () => {
                                         <Input
                                             name="descripcion"
                                             onChange={handleInputChange}
-                                            value={dataProducto.descripcion || ''}
+                                            value={dataProd.descripcion || ''}
                                             type="text"
                                             className='form-control'
                                             disabled='disabled'
@@ -285,10 +285,10 @@ const EntradaForm = () => {
                             <Row className="row-cols-lg g-3 align-items-center">
                                 <Col md={3}>
                                     <FormGroup>
-                                        <Label for="idProveedor">ID Proveedor</Label>
+                                        <Label for="idCliente">ID Cliente</Label>
                                         <Input
-                                            name="idProveedor"
-                                            value={entrada.idProveedor || ''}
+                                            name="idCliente"
+                                            value={salida.idCliente || ''}
                                             onChange={handleInputChange}
                                             type="number"
                                             className='form-control'
@@ -302,7 +302,7 @@ const EntradaForm = () => {
                                         <Input
                                             name="nombre"
                                             onChange={handleInputChange}
-                                            value={dataProveedor.nombre || ''}
+                                            value={dataCliente.nombre || ''}
                                             type="text"
                                             className='form-control'
                                             disabled='disabled'
@@ -315,47 +315,52 @@ const EntradaForm = () => {
                                     </Button>
                                 </Col>
                             </Row>
-                            <FormGroup>
-                                <Label for="precioCompra">Precio de Compra</Label>
-                                <Input
-                                    name="precioCompra"
-                                    value={producto.precioCompra}
-                                    onChange={handleInputChange}
-                                    type="number"
-                                    className='form-control'
-                                    placeholder="00.00"
-                                />
-                            </FormGroup>
+                            <Row>
+                                <Col>
+                                    <FormGroup>
+                                        <Label for="cantidadProducto">Cantidad</Label>
+                                        <Input
+                                            name="cantidadProducto"
+                                            onChange={handleInputChange}
+                                            value={salida.cantidadProducto || ''}
+                                            type="number"
+                                            className='form-control'
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col>
+                                    <FormGroup>
+                                        <Label for="stock">Stock</Label>
+                                        <Input
+                                            name="stock"
+                                            onChange={handleInputChange}
+                                            value={dataProd.stock || ''}
+                                            type="number"
+                                            className='form-control'
+                                            disabled='disabled'
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col>
+                                    <FormGroup>
+                                        <Label for="precioCompra">Precio</Label>
+                                        <Input
+                                            name="precioCompra"
+                                            onChange={handleInputChange}
+                                            value={dataProd.precioCompra || ''}
+                                            type="number"
+                                            className='form-control'
+                                            disabled='disabled'
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
 
-                            <FormGroup>
-                                <Label for="precioVenta">Precio de Venta</Label>
-                                <Input
-                                    name="precioVenta"
-                                    value={producto.precioVenta}
-                                    onChange={handleInputChange}
-                                    type="number"
-                                    className='form-control'
-                                    placeholder="00.00"
-                                />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="stock">Cantidad Producto</Label>
-                                <Input
-                                    name="stock"
-                                    value={producto.stock}
-                                    onChange={handleInputChange}
-                                    type="number"
-                                    className='form-control'
-                                    placeholder="0"
-                                />
-                            </FormGroup>
-
-                            <Button onClick={agregarEntrada} color="info">
+                            <Button onClick={agregarSalida} color="info">
                                 Guardar
                             </Button>
 
-                            <Link to="/entrada" className="btn btn-secondary">Volver</Link>
+                            <Link to="/salida" className="btn btn-secondary">Volver</Link>
 
                         </Form>
                     </CardBody>
@@ -388,14 +393,14 @@ const EntradaForm = () => {
                 <ModalBody>
                     <Card>
                         <CardHeader style={{ backgroundColor: '#884EA0', color: "white" }}>
-                            Lista de Proveedores
+                            Lista de Clientes
                         </CardHeader>
                         <CardBody>
                             <Link className='btn btn-danger' onClick={() => abrirModal(!verModal)} size="sm"><i className="fas fa-times-circle"></i></Link>
                             <hr></hr>
                             <DataTable
-                                columns={columnsProveedor}
-                                data={proveedores}
+                                columns={columnsCliente}
+                                data={clientes}
                                 pagination
                                 paginationComponentOptions={paginationComponentOptions}
                                 customStyles={customStyles}
@@ -410,4 +415,4 @@ const EntradaForm = () => {
     );
 };
 
-export default EntradaForm;
+export default SalidaForm;
