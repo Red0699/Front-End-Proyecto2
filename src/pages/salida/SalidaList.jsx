@@ -11,7 +11,7 @@ import { Card, CardBody, CardHeader, Button } from "reactstrap";
 
 //Services
 import ProductoService from '../../services/producto'
-import SalidaService from '../../services/entrada'
+import SalidaService from '../../services/salida'
 
 const API_URL = 'http://localhost:5000/api/salida'
 
@@ -128,7 +128,7 @@ function SalidaList() {
             cancelButtonText: 'No, volver'
         }).then((result) => {
             if (result.isConfirmed) {
-                ProductoService.deshabilitarEntrada(id).then(response => {
+                ProductoService.deshabilitarSalida(id).then(response => {
                     getSalidas();
 
                     Swal.fire(
@@ -138,7 +138,7 @@ function SalidaList() {
                     )
                 });
 
-                SalidaService.deshabilitarEntrada(idSalida);
+                SalidaService.deshabilitarSalida(idSalida);
                 //navigate("/salidas");
             }
         })

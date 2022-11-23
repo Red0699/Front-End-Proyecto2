@@ -21,6 +21,7 @@ const create = data => {
 };
 
 export const updateProducto = async (id, data) => {
+  const res = http.get(`/productos/${id}`)
   return await fetch(`http://localhost:5000/api/productos/${id}`, {
     method: 'PUT',
     headers: {
@@ -30,10 +31,9 @@ export const updateProducto = async (id, data) => {
       "descripcion": String(data.descripcion).trim(),
       "almacen": String(data.almacen).trim(),
       "idCategoria": parseInt(data.idCategoria),
-      //"precioCompra": parseFloat(data.precioCompra),
-      //"precioVenta": parseFloat(data.precioVenta),
-      //"stock": parseInt(data.stock),
-      "estadoProd": String(data.estado).trim()
+      "estadoProd": res.data[0].estadoProd,
+      "estadoEntrada": res.data[0].estadoEntrada,
+      "estadoSalida": res.data[0].estadoSalida
     })
   });
 };
@@ -62,7 +62,8 @@ export const updateProductoSalida = async (id, data) => {
     body: JSON.stringify({
       "precioCompra": res.data[0].precioCompra,
       "precioVenta": res.data[0].precioVenta,
-      "stock": parseFloat(data.stock),
+      "stock": parseInt(data.stock),
+      "estadoSalida": String(data.estadoSalida).trim()
     })
   });
 }
@@ -80,7 +81,8 @@ export const deshabilitarProducto = async (id) => {
         "almacen": res.data[0].almacen,
         "idCategoria": res.data[0].idCategoria,
         "estadoEntrada": "Inactivo",
-        "estadoProd": "Inactivo"
+        "estadoProd": "Inactivo",
+        "estadoSalida": "Inactivo"
     })
   });
 }
@@ -88,17 +90,35 @@ export const deshabilitarProducto = async (id) => {
 export const deshabilitarEntrada = async (id) => {
   const res = await http.get(`/productos/${id}`)
 
-  return await fetch(`http://localhost:5000/api/productos/${id}`, {
+  return await fetch(`http://localhost:5000/api/productosEntrada/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        "descripcion": res.data[0].descripcion,
-        "almacen": res.data[0].almacen,
-        "idCategoria": res.data[0].idCategoria,
-        "estadoProd": res.data[0].estadoProd,
-        "estadoEntrada": "Inactivo"
+        "precioCompra": res.data[0].precioCompra,
+        "precioVenta": res.data[0].precioVenta,
+        "stock": res.data[0].stock,
+        "estadoEntrada": "Inactivo",
+        "estadoSalida": "Inactivo"
+    })
+  });
+}
+
+export const deshabilitarSalida = async (id) => {
+  const res = await http.get(`/productos/${id}`)
+
+  return await fetch(`http://localhost:5000/api/productosEntrada/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        "precioCompra": res.data[0].precioCompra,
+        "precioVenta": res.data[0].precioVenta,
+        "stock": res.data[0].stock,
+        "estadoEntrada": "Activo",
+        "estadoSalida": "Inactivo"
     })
   });
 }
@@ -119,7 +139,8 @@ const ProductoService = {
   updateProductoSalida,
   deshabilitarEntrada,
   getAllProdEnIn,
-  getAllProdEn
+  getAllProdEn,
+  deshabilitarSalida
   //findByTitle
 };
 

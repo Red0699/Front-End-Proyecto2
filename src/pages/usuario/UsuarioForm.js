@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UsuarioService from './../../services/usuario';
 import { Link, useNavigate } from 'react-router-dom';
+import { appendErrors, useForm } from "react-hook-form";
 
 //ReactStrap
 import {
@@ -18,6 +19,9 @@ import {
 
 
 const UsuarioForm = () => {
+
+    const { formState: { errors } } = useForm();
+
     const initialTutorialState = {
         idUsuario: 0,
         primerNombre: "",
@@ -93,6 +97,7 @@ const UsuarioForm = () => {
                                 type="text"
                                 className='form-control'
                             />
+                            {errors.primerNombre}
                         </FormGroup>
 
                         <FormGroup>

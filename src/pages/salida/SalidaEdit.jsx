@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProductoService from './../../services/producto';
 import SalidaService from "../../services/salida";
 import ClienteService from "../../services/cliente";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import DataTable from 'react-data-table-component'
 
 //import ProveedorList from '../proveedor/ProveedorList';
@@ -27,13 +27,14 @@ import {
 
 
 
-const SalidaForm = () => {
+const SalidaEdit = () => {
     const initialTutorialState = {
         idSalida: 0,
         idProducto: 0,
         idCliente: 0,
         cantidadProducto: 0,
-        subtotal: 0
+        subtotal: 0,
+        
     };
 
     const initialProductoState = {
@@ -44,6 +45,9 @@ const SalidaForm = () => {
     const [salida, setSalida] = useState(initialTutorialState);
     const [verModal, setVerModal] = useState(false);
     const [verModal2, setVerModal2] = useState(false);
+    const [dataProd, setDataProducto] = useState('');
+    const [cantAct, setDataCantidad] = useState({cantidadProducto: 0})
+    const params = useParams();
 
     //-------------------------------------------------------- FORMULARIO SALIDA -----------------------------------------------------------------------------
 
@@ -53,20 +57,33 @@ const SalidaForm = () => {
         setSalida({ ...salida, [name]: value });
     };
 
-    const agregarSalida = () => {
+    const editarSalida = () => {
+        var dataProducto
+
         var dataSalida = {
             idProducto: salida.idProducto,
             idCliente: salida.idCliente,
             cantidadProducto: salida.cantidadProducto,
-            subtotal: dataProd.precioCompra * salida.cantidadProducto
+            subtotal: dataProd.precioCompra * salida.cantidadProducto,
+            estado: salida.estado,
         };
 
-        var dataProducto = {
-            stock: dataProd.stock - salida.cantidadProducto,
-            estadoSalida: "Activo"
+        console.log(cantAct.cantidadProducto)
+
+        if(cantAct.cantidadProducto > salida.cantidadProducto){
+            const residuo = (cantAct.cantidadProducto - salida.cantidadProducto)
+            dataProducto = {
+                stock: producto.stock + residuo
+            }
+        }else{
+            const residuo2 = salida.cantidadProducto - cantAct.cantidadProducto
+            dataProducto = {
+                stock: producto.stock - residuo2
+            }
         }
 
-        SalidaService.create(dataSalida)
+
+        SalidaService.updateSalida(params.id,dataSalida)
             .then(response => {
                 /*
                 setSalida({
@@ -161,60 +178,6 @@ const SalidaForm = () => {
         },
     ];
 
-    //--------------------------------------------------- MODAL LISTA PRODUCTOS ---------------------------------------------------------------------------
-    const [productos, setProductos] = useState([])
-    const [dataProd, setDataProducto] = useState('');
-
-    const getProductos = async () => {
-        await ProductoService.getAllProdEn().then(response => {
-            setProductos(response.data)
-        })
-    }
-    const abrirModal2 = () => {
-        setVerModal2(!verModal2);
-    }
-
-    const getProductoModal = async (dataP) => {
-        console.log(dataP);
-        setDataProducto(dataP);
-        salida.idProducto = dataP.idProducto;
-        setVerModal2(!verModal2);
-    }
-
-    //Columnas tabla
-    const columnsProducto = [
-        {
-            name: 'Descripción',
-            selector: row => row.descripcion,
-            sortable: true,
-        },
-        {
-            name: 'Almacen',
-            selector: row => row.almacen,
-            sortable: true,
-        },
-
-        {
-            name: 'Categoría',
-            selector: row => row.idCategoria,
-            sortable: true,
-        },
-        {
-            name: '',
-            cell: row => (
-                <>
-                    <Button style={{ backgroundColor: '#0E6655', color: "white" }} size="sm"
-                        onClick={() => getProductoModal(row)}
-                    >
-                        <i className="fas fa-check"></i>
-                    </Button>
-                </>
-            ),
-        },
-    ];
-
-
-
     //------------------------------------------------------- ESTILO TABLAS ---------------------------------------------------------------------------------
     const customStyles = {
         headCells: {
@@ -237,9 +200,21 @@ const SalidaForm = () => {
         selectAllRowsItemText: 'Todos',
     };
 
+    const getDataForm = () => {
+
+        SalidaService.get(params.id).then(response => {
+            const dataE = response.data[0];
+            setSalida(dataE)
+            setProducto(dataE)
+            setDataProducto(dataE)
+            setDataCliente(dataE)
+            setDataCantidad(dataE)
+        })
+    }
+
     useEffect(() => {
         getClientes()
-        getProductos()
+        getDataForm()
     }, [])
 
     return (
@@ -276,11 +251,6 @@ const SalidaForm = () => {
                                             disabled='disabled'
                                         />
                                     </FormGroup>
-                                </Col>
-                                <Col>
-                                    <Button color="info" onClick={() => abrirModal2(!verModal2)}>
-                                        <i className="fas fa-search"></i>
-                                    </Button>
                                 </Col>
                             </Row>
                             <Row className="row-cols-lg g-3 align-items-center">
@@ -335,7 +305,7 @@ const SalidaForm = () => {
                                         <Input
                                             name="stock"
                                             onChange={handleInputChange}
-                                            value={dataProd.stock || ''}
+                                            value={producto.stock || ''}
                                             type="number"
                                             className='form-control'
                                             disabled='disabled'
@@ -357,7 +327,7 @@ const SalidaForm = () => {
                                 </Col>
                             </Row>
 
-                            <Button onClick={agregarSalida} color="info">
+                            <Button onClick={editarSalida} color="info">
                                 Guardar
                             </Button>
 
@@ -367,28 +337,6 @@ const SalidaForm = () => {
                     </CardBody>
                 </Card>
             </Container>
-
-            <Modal isOpen={verModal2}>
-                <ModalBody>
-                    <Card>
-                        <CardHeader style={{ backgroundColor: '#0E6655', color: "white" }}>
-                            Lista de Productos
-                        </CardHeader>
-                        <CardBody>
-                            <Link className='btn btn-danger' onClick={() => abrirModal2(!verModal2)} size="sm"><i className="fas fa-times-circle"></i></Link>
-                            <hr></hr>
-                            <DataTable
-                                columns={columnsProducto}
-                                data={productos}
-                                pagination
-                                paginationComponentOptions={paginationComponentOptions}
-                                customStyles={customStyles}
-                            />
-                        </CardBody>
-                    </Card>
-                </ModalBody>
-
-            </Modal>
 
             <Modal isOpen={verModal}>
                 <ModalBody>
@@ -416,4 +364,4 @@ const SalidaForm = () => {
     );
 };
 
-export default SalidaForm;
+export default SalidaEdit;

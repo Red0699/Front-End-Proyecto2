@@ -101,28 +101,12 @@ const Sidebar = () => {
                 </NavLink>
             </li>
 
-            <li className="nav-item">
-                <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVenta"
-                    aria-expanded="true" aria-controls="collapseVenta">
-                    <i className="fas fa-fw fa-tag"></i>
-                    <span>Ventas</span>
-                </a>
-                <div id="collapseVenta" className="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div className="bg-white py-2 collapse-inner rounded">
-                        <NavLink to="/venta" className="collapse-item">Nueva Venta</NavLink>
-                        <NavLink to="/historialventa" className="collapse-item">Historial Venta</NavLink>
-                    </div>
-                </div>
-            </li>
-
-
             {(dataUser.idRol == 1) &&
                 <li className="nav-item">
                     <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReporte"
                         aria-expanded="true" aria-controls="collapseReporte">
                         <i className="fas fa-fw fa-chart-area"></i>
-                        <span>Reportes</span>
+                        <span>Inventario</span>
                     </a>
                     <div id="collapseReporte" className="collapse" aria-labelledby="headingUtilities"
                         data-parent="#accordionSidebar">
