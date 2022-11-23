@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ClienteService from './../../services/cliente';
 
+//Sweet Alert
+import Swal from 'sweetalert2'
+
 //const API_URL = 'http://localhost:5000/api/usuarios/'
 
 //ReactStrap
@@ -81,10 +84,19 @@ const ClienteEdit = () => {
 
         try {
             await ClienteService.updateCliente(id, update).then(res => {
-                //alert(res.data);
+                Swal.fire(
+                    'Guardado',
+                    '¡Se ha actualizado con exito!',
+                    'success'
+                )
                 navigate('/cliente')
             })
         } catch (error) {
+            Swal.fire(
+                'Opp!',
+                'No se pudo guardar.',
+                'warning'
+            )
             console.log(error);
         }
     }

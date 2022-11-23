@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import UsuarioService from './../../services/usuario';
 import { Link, useNavigate } from 'react-router-dom';
-import { appendErrors, useForm } from "react-hook-form";
+//Sweet Alert
+import Swal from 'sweetalert2'
 
 //ReactStrap
 import {
@@ -19,8 +20,6 @@ import {
 
 
 const UsuarioForm = () => {
-
-    const { formState: { errors } } = useForm();
 
     const initialTutorialState = {
         idUsuario: 0,
@@ -67,10 +66,19 @@ const UsuarioForm = () => {
                     contraseña: response.data.contraseña,
                     idRol: response.data.idRol
                 });
-                console.log(response.data);
+                Swal.fire(
+                    'Guardado',
+                    '¡Se ha registrado con exito!',
+                    'success'
+                )
                 navigate('/usuario');
             })
             .catch(e => {
+                Swal.fire(
+                    'Opp!',
+                    'No se pudo guardar.',
+                    'warning'
+                )
                 console.log(e);
             });
     };
@@ -97,7 +105,7 @@ const UsuarioForm = () => {
                                 type="text"
                                 className='form-control'
                             />
-                            {errors.primerNombre}
+                            
                         </FormGroup>
 
                         <FormGroup>

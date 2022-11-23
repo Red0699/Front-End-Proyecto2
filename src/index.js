@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { PDFViewer } from '@react-pdf/renderer';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/scss/bootstrap.scss';
 
@@ -31,6 +32,8 @@ import EntradaEdit from './pages/entrada/EntradaEdit';
 import SalidaList from './pages/salida/SalidaList';
 import SalidaForm from './pages/salida/SalidaForm';
 import SalidaEdit from './pages/salida/SalidaEdit';
+
+import InventarioList from './pages/inventario/InventarioList';
 
 import UserProvider from './context/UserProvider';
 import App from './App';
@@ -75,12 +78,15 @@ root.render(
                     <Route path='salida' element={<VerificarUsuario> <SalidaList /> </VerificarUsuario>} />
                     <Route path='salida/create' element={<VerificarUsuario> <SalidaForm /> </VerificarUsuario>} />
                     <Route path='salida/edit/:id' element={<VerificarUsuario> <SalidaEdit /> </VerificarUsuario>} />
+
+                    <Route path='inventario' element={<VerificarUsuario> <InventarioList /> </VerificarUsuario>} />
+                    
                 </Route>
-                
+
             </Routes>
 
         </UserProvider>
-       
+
 
     </BrowserRouter>
 );

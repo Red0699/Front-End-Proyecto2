@@ -111,7 +111,10 @@ const Sidebar = () => {
                     <div id="collapseReporte" className="collapse" aria-labelledby="headingUtilities"
                         data-parent="#accordionSidebar">
                         <div className="bg-white py-2 collapse-inner rounded">
-                            <NavLink to="/reporteventa" className="collapse-item">Reporte Venta</NavLink>
+                            <NavLink to="/inventario" className="collapse-item">Ver lista</NavLink>
+                        </div>
+                        <div className="bg-white py-1 collapse-inner rounded">
+                            <NavLink to="/informeInventario" className="collapse-item">Informe</NavLink>
                         </div>
                     </div>
                 </li>

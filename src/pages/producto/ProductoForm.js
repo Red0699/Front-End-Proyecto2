@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import ProductoService from './../../services/producto';
 import { Link, useNavigate } from 'react-router-dom';
 
+//Sweet Alert
+import Swal from 'sweetalert2'
+
 //ReactStrap
 import {
     Container,
@@ -48,10 +51,19 @@ const ProductoForm = () => {
                     almacen: response.data.almacen,
                     idCategoria: response.data.idCategoria
                 });
-                console.log(response.data);
+                Swal.fire(
+                    'Guardado',
+                    '¡Se ha registrado con exito!',
+                    'success'
+                )
                 navigate('/producto');
             })
             .catch(e => {
+                Swal.fire(
+                    'Opp!',
+                    'No se pudo guardar.',
+                    'warning'
+                )
                 console.log(e);
             });
     };

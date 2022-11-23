@@ -5,6 +5,9 @@ import ProveedorService from './../../services/proveedor';
 
 //const API_URL = 'http://localhost:5000/api/usuarios/'
 
+//Sweet Alert
+import Swal from 'sweetalert2'
+
 //ReactStrap
 import {
     Container,
@@ -82,9 +85,19 @@ const ProveedorEdit = () => {
         try {
             await ProveedorService.updateProveedor(id, update).then(res => {
                 //alert(res.data);
+                Swal.fire(
+                    'Guardado',
+                    '¡Se ha actualizado con exito!',
+                    'success'
+                )
                 navigate('/proveedor')
             })
         } catch (error) {
+            Swal.fire(
+                'Opp!',
+                'No se pudo guardar.',
+                'warning'
+            )
             console.log(error);
         }
     }

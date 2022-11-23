@@ -7,6 +7,9 @@ import DataTable from 'react-data-table-component'
 
 //import ProveedorList from '../proveedor/ProveedorList';
 
+//Sweet Alert
+import Swal from 'sweetalert2'
+
 //ReactStrap
 import {
     Container,
@@ -110,8 +113,18 @@ const SalidaEdit = () => {
                 });
                 //console.log(response.dataProducto);
                 */
+                Swal.fire(
+                    'Guardado',
+                    '¡Se ha actualizado con exito!',
+                    'success'
+                )
             })
             .catch(err => {
+                Swal.fire(
+                    'Opp!',
+                    'No se pudo guardar.',
+                    'warning'
+                )
                 console.log(err);
                 //band = false;
             })

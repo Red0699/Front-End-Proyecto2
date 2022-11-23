@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import ClienteService from './../../services/cliente';
 import { Link, useNavigate } from 'react-router-dom';
 
+//Sweet Alert
+import Swal from 'sweetalert2'
+
 //ReactStrap
 import {
     Container,
@@ -51,10 +54,19 @@ const ClienteForm = () => {
                     telefono: response.data.telefono,
                     correo: response.data.correo,
                 });
-                console.log(response.data);
+                Swal.fire(
+                    'Guardado',
+                    '¡Se ha registrado con exito!',
+                    'success'
+                )
                 navigate('/cliente');
             })
             .catch(e => {
+                Swal.fire(
+                    'Opp!',
+                    'No se pudo guardar.',
+                    'warning'
+                )
                 console.log(e);
             });
     };

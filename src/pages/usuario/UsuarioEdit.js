@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import UsuarioService from './../../services/usuario';
 
+//Sweet Alert
+import Swal from 'sweetalert2'
+
 //const API_URL = 'http://localhost:5000/api/usuarios/'
 
 //ReactStrap
@@ -94,9 +97,19 @@ const UsuarioEdit = () => {
         try {
             await UsuarioService.updateUsuario(id, update).then(res => {
                 //alert(res.data);
+                Swal.fire(
+                    'Guardado',
+                    '¡Se ha actualizado con exito!',
+                    'success'
+                )
                 navigate('/usuario')
             })
         } catch (error) {
+            Swal.fire(
+                'Opp!',
+                'No se pudo guardar.',
+                'warning'
+            )
             console.log(error);
         }
     }
